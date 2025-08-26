@@ -181,3 +181,57 @@ model SystemSettings {
 
   @@map("system_settings")
 }
+
+// Audit Log Model for Compliance (PCI DSS Requirement 10)
+model AuditLog {
+  id         String   @id @default(cuid())
+  userId     String?
+  action     String   // e.g., "LOGIN", "TRANSFER_CREATE", "PAYMENT_SUCCESS"
+  resource   String   // e.g., "USER_AUTH", "TRANSFER", "PAYMENT"
+  resourceId String?  // ID of the resource being acted upon
+  oldValues  String?  // JSON string of old values (masked for sensitive data)
+  newValues  String?  // JSON string of new values (masked for sensitive data)
+  ipAddress  String?
+  userAgent  String?
+  metadata   String?  // Additional context as JSON
+  createdAt  DateTime @default(now())
+
+  @@index([userId])
+  @@index([action])
+  @@index([resource])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+// Stripe Reliability Monitoring
+model StripeReliabilityLog {
+  id           String   @id @default(cuid())
+  type         String   // "PAYMENT_INTENT", "SUBSCRIPTION", "INVOICE"
+  success      Boolean
+  stripeId     String
+  errorCode    String?
+  errorMessage String?
+  amount       String?  // Stored as string to avoid precision issues
+  currency     String?
+  userId       String?
+  timestamp    DateTime @default(now())
+
+  @@index([timestamp])
+  @@index([success])
+  @@index([type])
+  @@map("stripe_reliability_logs")
+}
+
+// Aggregated Stripe Metrics for Reporting
+model StripeMetrics {
+  id                  String   @id @default(cuid())
+  failureRate         Decimal  @db.Decimal(5, 4) // e.g., 0.0150 for 1.5%
+  totalTransactions   Int
+  failedTransactions  Int
+  windowStart         DateTime
+  windowEnd           DateTime
+  createdAt           DateTime @default(now())
+
+  @@index([windowStart])
+  @@map("stripe_metrics")
+}
