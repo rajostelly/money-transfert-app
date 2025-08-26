@@ -1,24 +1,24 @@
-import {
-  createCipheriv,
-  createDecipheriv,
-  randomBytes,
-  scryptSync,
-} from "crypto";
+import './server-only';
+import { createCipheriv, createDecipheriv, randomBytes, scryptSync } from 'crypto';
 
 // Security Configuration for PCI DSS Compliance
 export class SecurityService {
-  private static readonly ALGORITHM = "aes-256-gcm";
+  private static readonly ALGORITHM = 'aes-256-gcm';
   private static readonly KEY_LENGTH = 32;
   private static readonly IV_LENGTH = 16;
   private static readonly TAG_LENGTH = 16;
 
   // Get encryption key from environment (32 bytes)
   private static getEncryptionKey(): Buffer {
+    if (typeof window !== 'undefined') {
+      throw new Error('Encryption operations are only available on the server side');
+    }
+    
     const key = process.env.ENCRYPTION_KEY;
     if (!key || key.length < 32) {
-      throw new Error("ENCRYPTION_KEY must be at least 32 characters long");
+      throw new Error('ENCRYPTION_KEY must be at least 32 characters long');
     }
-    return scryptSync(key, "salt", this.KEY_LENGTH);
+    return scryptSync(key, 'salt', this.KEY_LENGTH);
   }
 
   /**
@@ -26,21 +26,25 @@ export class SecurityService {
    * Used for storing sensitive data like payment tokens, personal information
    */
   static encryptSensitiveData(data: string): string {
+    if (typeof window !== 'undefined') {
+      throw new Error('Encryption operations are only available on the server side');
+    }
+
     try {
       const key = this.getEncryptionKey();
       const iv = randomBytes(this.IV_LENGTH);
       const cipher = createCipheriv(this.ALGORITHM, key, iv);
 
-      let encrypted = cipher.update(data, "utf8", "hex");
-      encrypted += cipher.final("hex");
+      let encrypted = cipher.update(data, 'utf8', 'hex');
+      encrypted += cipher.final('hex');
 
       const tag = cipher.getAuthTag();
 
       // Combine IV + tag + encrypted data
-      return iv.toString("hex") + tag.toString("hex") + encrypted;
+      return iv.toString('hex') + tag.toString('hex') + encrypted;
     } catch (error) {
-      console.error("Encryption error:", error);
-      throw new Error("Failed to encrypt sensitive data");
+      console.error('Encryption error:', error);
+      throw new Error('Failed to encrypt sensitive data');
     }
   }
 
@@ -48,6 +52,10 @@ export class SecurityService {
    * Decrypt sensitive data
    */
   static decryptSensitiveData(encryptedData: string): string {
+    if (typeof window !== 'undefined') {
+      throw new Error('Decryption operations are only available on the server side');
+    }
+
     try {
       const key = this.getEncryptionKey();
 

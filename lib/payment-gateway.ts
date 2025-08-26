@@ -1,4 +1,5 @@
-import { stripe } from "./stripe-server";
+import './server-only';
+import { stripe } from './stripe-server';
 import { StripeReliabilityService } from "./stripe-reliability";
 import { AuditService } from "./audit-service";
 

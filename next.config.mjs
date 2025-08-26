@@ -112,6 +112,17 @@ const nextConfig = {
 
   // Webpack optimizations for performance
   webpack: (config, { dev, isServer }) => {
+    // Fix for 'self is not defined' error
+    if (isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+        crypto: false,
+      };
+    }
+
     // Production optimizations
     if (!dev) {
       config.optimization = {
@@ -129,6 +140,15 @@ const nextConfig = {
       };
     }
 
+    // Prevent client-side polyfills for Node.js modules
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      crypto: false,
+      fs: false,
+      net: false,
+      tls: false,
+    };
+
     return config;
   },
 
@@ -142,14 +162,6 @@ const nextConfig = {
   // Performance optimizations
   experimental: {
     optimizeCss: true,
-    turbo: {
-      rules: {
-        "*.svg": {
-          loaders: ["@svgr/webpack"],
-          as: "*.js",
-        },
-      },
-    },
   },
 
   // Disable X-Powered-By header

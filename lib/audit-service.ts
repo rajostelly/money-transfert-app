@@ -1,8 +1,9 @@
-import { prisma } from "./prisma";
+import './server-only';
+import { prisma } from './prisma';
 
 export interface AuditLogEntry {
   id?: string;
-  userId?: string;
+  userId?: string | null;
   action: string;
   resource: string;
   resourceId?: string;
@@ -237,12 +238,12 @@ export class AuditService {
             : null,
         },
       });
-    } catch (error) {
+    } catch (error: unknown) {
       console.error("Failed to create audit log:", error);
       // Don't throw error to avoid breaking main functionality
       // But log to system monitoring
       this.logToSystemMonitoring("AUDIT_LOG_FAILED", {
-        error: error.message,
+        error: error instanceof Error ? error.message : String(error),
         entry,
       });
     }

@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
     // Log the compliance data access
     await AuditService.logDataAccess(
       user.id,
-      "read",
+      "READ",
       "COMPLIANCE_DASHBOARD",
       undefined,
       request.headers.get("x-forwarded-for") || "unknown",

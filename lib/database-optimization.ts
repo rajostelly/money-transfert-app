@@ -1,4 +1,5 @@
-import { prisma } from "./prisma";
+import './server-only';
+import { prisma } from './prisma';
 
 /**
  * Database Performance Optimization Service
