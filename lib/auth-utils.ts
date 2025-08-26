@@ -1,44 +1,44 @@
-import { cookies } from "next/headers"
-import { redirect } from "next/navigation"
-import { verifyToken } from "./auth"
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { verifyToken } from "./auth";
 
 export async function getCurrentUser() {
-  const cookieStore = cookies()
-  const token = cookieStore.get("auth-token")?.value
+  const cookieStore = await cookies();
+  const token = cookieStore.get("auth-token")?.value;
 
   if (!token) {
-    return null
+    return null;
   }
 
-  const session = verifyToken(token)
-  return session?.user || null
+  const session = verifyToken(token);
+  return session?.user || null;
 }
 
 export async function requireAuth() {
-  const user = await getCurrentUser()
+  const user = await getCurrentUser();
   if (!user) {
-    redirect("/auth/login")
+    redirect("/auth/login");
   }
-  return user
+  return user;
 }
 
 export async function requireRole(allowedRoles: string[]) {
-  const user = await requireAuth()
+  const user = await requireAuth();
   if (!allowedRoles.includes(user.role)) {
-    redirect("/unauthorized")
+    redirect("/unauthorized");
   }
-  return user
+  return user;
 }
 
 export function getRoleBasedRedirect(role: string): string {
   switch (role) {
     case "CLIENT":
-      return "/dashboard"
+      return "/dashboard";
     case "ADMIN":
-      return "/admin"
+      return "/admin";
     case "MADAGASCAR_TEAM":
-      return "/madagascar"
+      return "/madagascar";
     default:
-      return "/dashboard"
+      return "/dashboard";
   }
 }
