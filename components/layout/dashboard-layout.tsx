@@ -122,7 +122,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           </Button>
         </div>
 
-        <nav className="mt-8 px-4 space-y-2 overflow-y-auto h-[calc(100vh-4rem)]">
+        <nav className="mt-6 px-4 space-y-1 overflow-y-auto h-[calc(100vh-4rem)]">
           {navItems.map((item) => {
             const isActive = pathname === item.href;
             return (
@@ -130,14 +130,14 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors",
+                  "flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors",
                   isActive
                     ? "bg-emerald-100 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 border-r-2 border-emerald-600"
                     : "text-muted-foreground hover:bg-muted hover:text-foreground"
                 )}
                 onClick={() => setSidebarOpen(false)}
               >
-                <item.icon className="mr-3 h-6 w-6" />
+                <item.icon className="mr-3 h-4 w-4" />
                 {item.label}
               </Link>
             );
