@@ -1,39 +1,45 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Loader2, Settings, DollarSign, Clock, TrendingUp } from "lucide-react"
+import { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Loader2, Settings, DollarSign, Clock, TrendingUp } from "lucide-react";
 
 interface SystemSettingsProps {
   settings: {
-    transferFeePercentage: string
-    notificationDaysBefore: string
-    minTransferAmount: string
-    maxTransferAmount: string
-    currentExchangeRate: string
-  }
+    transferFeePercentage: string;
+    notificationDaysBefore: string;
+    minTransferAmount: string;
+    maxTransferAmount: string;
+    currentExchangeRate: string;
+  };
 }
 
 export function SystemSettings({ settings }: SystemSettingsProps) {
-  const [formData, setFormData] = useState(settings)
-  const [isLoading, setIsLoading] = useState(false)
-  const [message, setMessage] = useState("")
-  const [isError, setIsError] = useState(false)
+  const [formData, setFormData] = useState(settings);
+  const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const [isError, setIsError] = useState(false);
 
   const handleChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
-  }
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
-    setMessage("")
+    e.preventDefault();
+    setIsLoading(true);
+    setMessage("");
 
     try {
       const response = await fetch("/api/admin/settings", {
@@ -42,24 +48,24 @@ export function SystemSettings({ settings }: SystemSettingsProps) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
-      })
+      });
 
-      const data = await response.json()
+      const data = await response.json();
 
       if (!response.ok) {
-        setMessage(data.error || "Failed to update settings")
-        setIsError(true)
+        setMessage(data.error || "Failed to update settings");
+        setIsError(true);
       } else {
-        setMessage("Settings updated successfully")
-        setIsError(false)
+        setMessage("Settings updated successfully");
+        setIsError(false);
       }
     } catch (error) {
-      setMessage("An error occurred. Please try again.")
-      setIsError(true)
+      setMessage("An error occurred. Please try again.");
+      setIsError(true);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <Card className="shadow-sm">
@@ -78,7 +84,7 @@ export function SystemSettings({ settings }: SystemSettingsProps) {
                 Transfer Fee Percentage
               </Label>
               <div className="relative">
-                <DollarSign className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <DollarSign className="absolute left-3 top-3 h-3 w-3 text-muted-foreground" />
                 <Input
                   id="transferFee"
                   type="number"
@@ -87,11 +93,15 @@ export function SystemSettings({ settings }: SystemSettingsProps) {
                   max="10"
                   placeholder="2.5"
                   value={formData.transferFeePercentage}
-                  onChange={(e) => handleChange("transferFeePercentage", e.target.value)}
+                  onChange={(e) =>
+                    handleChange("transferFeePercentage", e.target.value)
+                  }
                   className="pl-10"
                 />
               </div>
-              <p className="text-xs text-muted-foreground">Percentage fee charged on transfers</p>
+              <p className="text-xs text-muted-foreground">
+                Percentage fee charged on transfers
+              </p>
             </div>
 
             <div className="space-y-2">
@@ -99,7 +109,7 @@ export function SystemSettings({ settings }: SystemSettingsProps) {
                 Notification Days Before
               </Label>
               <div className="relative">
-                <Clock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <Clock className="absolute left-3 top-3 h-3 w-3 text-muted-foreground" />
                 <Input
                   id="notificationDays"
                   type="number"
@@ -107,11 +117,15 @@ export function SystemSettings({ settings }: SystemSettingsProps) {
                   max="30"
                   placeholder="3"
                   value={formData.notificationDaysBefore}
-                  onChange={(e) => handleChange("notificationDaysBefore", e.target.value)}
+                  onChange={(e) =>
+                    handleChange("notificationDaysBefore", e.target.value)
+                  }
                   className="pl-10"
                 />
               </div>
-              <p className="text-xs text-muted-foreground">Days before transfer to send notification</p>
+              <p className="text-xs text-muted-foreground">
+                Days before transfer to send notification
+              </p>
             </div>
 
             <div className="space-y-2">
@@ -119,7 +133,7 @@ export function SystemSettings({ settings }: SystemSettingsProps) {
                 Minimum Transfer Amount (CAD)
               </Label>
               <div className="relative">
-                <DollarSign className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <DollarSign className="absolute left-3 top-3 h-3 w-3 text-muted-foreground" />
                 <Input
                   id="minAmount"
                   type="number"
@@ -127,7 +141,9 @@ export function SystemSettings({ settings }: SystemSettingsProps) {
                   min="1"
                   placeholder="10.00"
                   value={formData.minTransferAmount}
-                  onChange={(e) => handleChange("minTransferAmount", e.target.value)}
+                  onChange={(e) =>
+                    handleChange("minTransferAmount", e.target.value)
+                  }
                   className="pl-10"
                 />
               </div>
@@ -138,7 +154,7 @@ export function SystemSettings({ settings }: SystemSettingsProps) {
                 Maximum Transfer Amount (CAD)
               </Label>
               <div className="relative">
-                <DollarSign className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <DollarSign className="absolute left-3 top-3 h-3 w-3 text-muted-foreground" />
                 <Input
                   id="maxAmount"
                   type="number"
@@ -146,7 +162,9 @@ export function SystemSettings({ settings }: SystemSettingsProps) {
                   min="100"
                   placeholder="5000.00"
                   value={formData.maxTransferAmount}
-                  onChange={(e) => handleChange("maxTransferAmount", e.target.value)}
+                  onChange={(e) =>
+                    handleChange("maxTransferAmount", e.target.value)
+                  }
                   className="pl-10"
                 />
               </div>
@@ -157,7 +175,7 @@ export function SystemSettings({ settings }: SystemSettingsProps) {
                 Current Exchange Rate (CAD to MGA)
               </Label>
               <div className="relative">
-                <TrendingUp className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <TrendingUp className="absolute left-3 top-3 h-3 w-3 text-muted-foreground" />
                 <Input
                   id="exchangeRate"
                   type="number"
@@ -165,11 +183,15 @@ export function SystemSettings({ settings }: SystemSettingsProps) {
                   min="1"
                   placeholder="3200.00"
                   value={formData.currentExchangeRate}
-                  onChange={(e) => handleChange("currentExchangeRate", e.target.value)}
+                  onChange={(e) =>
+                    handleChange("currentExchangeRate", e.target.value)
+                  }
                   className="pl-10"
                 />
               </div>
-              <p className="text-xs text-muted-foreground">Current exchange rate from CAD to MGA</p>
+              <p className="text-xs text-muted-foreground">
+                Current exchange rate from CAD to MGA
+              </p>
             </div>
           </div>
 
@@ -179,7 +201,11 @@ export function SystemSettings({ settings }: SystemSettingsProps) {
             </Alert>
           )}
 
-          <Button type="submit" className="w-full bg-emerald-600 hover:bg-emerald-700" disabled={isLoading}>
+          <Button
+            type="submit"
+            className="w-full bg-emerald-600 hover:bg-emerald-700"
+            disabled={isLoading}
+          >
             {isLoading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -192,5 +218,5 @@ export function SystemSettings({ settings }: SystemSettingsProps) {
         </form>
       </CardContent>
     </Card>
-  )
+  );
 }

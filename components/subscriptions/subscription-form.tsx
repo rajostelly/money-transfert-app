@@ -148,7 +148,7 @@ export function SubscriptionForm({ beneficiaries }: SubscriptionFormProps) {
                 Amount (CAD)
               </Label>
               <div className="relative">
-                <DollarSign className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <DollarSign className="absolute left-3 top-3 h-3 w-3 text-muted-foreground" />
                 <Input
                   id="amount"
                   type="number"
@@ -172,7 +172,7 @@ export function SubscriptionForm({ beneficiaries }: SubscriptionFormProps) {
                 Frequency
               </Label>
               <div className="relative">
-                <Calendar className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <Calendar className="absolute left-3 top-3 h-3 w-3 text-muted-foreground" />
                 <Select
                   value={formData.frequency}
                   onValueChange={(value) => handleChange("frequency", value)}

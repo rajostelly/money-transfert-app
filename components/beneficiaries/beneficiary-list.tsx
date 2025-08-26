@@ -90,8 +90,8 @@ export function BeneficiaryList({ beneficiaries }: BeneficiaryListProps) {
   return (
     <div className="space-y-6">
       {/* Search */}
-      <div className="relative">
-        <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+      <div className="relative max-w-md">
+        <Search className="absolute left-3 top-3 h-3 w-3 text-muted-foreground" />
         <Input
           placeholder="Search beneficiaries by name, city, or phone..."
           value={searchTerm}
@@ -115,19 +115,22 @@ export function BeneficiaryList({ beneficiaries }: BeneficiaryListProps) {
           </p>
         </div>
       ) : (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {filteredBeneficiaries.map((beneficiary) => (
             <Card
               key={beneficiary.id}
-              className="shadow-sm hover:shadow-md transition-shadow"
+              className="shadow-sm hover:shadow-md transition-shadow flex flex-col"
             >
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-lg font-semibold truncate">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 flex-shrink-0">
+                <CardTitle className="text-lg font-semibold truncate pr-2">
                   {beneficiary.name}
                 </CardTitle>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="h-8 w-8 p-0">
+                    <Button
+                      variant="ghost"
+                      className="h-8 w-8 p-0 flex-shrink-0"
+                    >
                       <MoreHorizontal className="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
@@ -151,33 +154,37 @@ export function BeneficiaryList({ beneficiaries }: BeneficiaryListProps) {
                   </DropdownMenuContent>
                 </DropdownMenu>
               </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                  <MapPin className="h-4 w-4" />
-                  <span>
-                    {beneficiary.city}, {beneficiary.country}
-                  </span>
-                </div>
-
-                <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                  <Phone className="h-4 w-4" />
-                  <span>{beneficiary.phone}</span>
-                </div>
-
-                {beneficiary.address && (
-                  <div className="text-sm text-muted-foreground">
-                    <p className="truncate">{beneficiary.address}</p>
+              <CardContent className="space-y-3 flex-1 flex flex-col">
+                <div className="space-y-3 flex-1">
+                  <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+                    <MapPin className="h-4 w-4 flex-shrink-0" />
+                    <span className="truncate">
+                      {beneficiary.city}, {beneficiary.country}
+                    </span>
                   </div>
-                )}
 
-                <div className="pt-2 border-t">
-                  <Badge variant="secondary" className="text-xs">
-                    Active
-                  </Badge>
+                  <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+                    <Phone className="h-4 w-4 flex-shrink-0" />
+                    <span className="truncate">{beneficiary.phone}</span>
+                  </div>
+
+                  {beneficiary.address && (
+                    <div className="text-sm text-muted-foreground">
+                      <p className="truncate" title={beneficiary.address}>
+                        {beneficiary.address}
+                      </p>
+                    </div>
+                  )}
+
+                  <div className="pt-2 border-t">
+                    <Badge variant="secondary" className="text-xs">
+                      Active
+                    </Badge>
+                  </div>
                 </div>
 
                 {/* Quick Actions */}
-                <div className="flex space-x-2 pt-2">
+                <div className="flex space-x-2 pt-2 mt-auto">
                   <Button
                     asChild
                     size="sm"

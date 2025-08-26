@@ -29,20 +29,23 @@ export default async function BeneficiariesPage() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-8">
+      <div className="space-y-8 max-w-7xl mx-auto">
         {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="space-y-1">
             <h1 className="text-3xl font-bold text-foreground">
               Beneficiaries
             </h1>
-            <p className="text-muted-foreground mt-2">
+            <p className="text-muted-foreground">
               Manage your money transfer recipients
             </p>
           </div>
-          <Button asChild className="bg-emerald-600 hover:bg-emerald-700">
+          <Button
+            asChild
+            className="bg-emerald-600 hover:bg-emerald-700 whitespace-nowrap"
+          >
             <Link href="/dashboard/beneficiaries/new">
-              <Plus className="mr-2 h-5 w-5" />
+              <Plus className="mr-2 h-4 w-4" />
               Add Beneficiary
             </Link>
           </Button>

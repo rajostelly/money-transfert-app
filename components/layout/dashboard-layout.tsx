@@ -146,9 +146,9 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
       </div>
 
       {/* Main content */}
-      <div className="lg:pl-64">
+      <div className="lg:pl-64 flex flex-col min-h-screen">
         {/* Top header */}
-        <header className="sticky top-0 z-30 bg-card shadow-sm border-b border-border">
+        <header className="sticky top-0 z-30 bg-card shadow-sm border-b border-border flex-shrink-0">
           <div className="flex items-center justify-between h-16 px-6">
             <Button
               variant="ghost"
@@ -156,7 +156,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
               className="lg:hidden"
               onClick={() => setSidebarOpen(true)}
             >
-              <Menu className="h-6 w-6" />
+              <Menu className="h-5 w-5" />
             </Button>
 
             <div className="flex items-center space-x-4 ml-auto">
@@ -188,7 +188,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={handleSignOut}>
-                    <LogOut className="mr-2 h-5 w-5" />
+                    <LogOut className="mr-2 h-4 w-4" />
                     <span>Log out</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -198,7 +198,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         </header>
 
         {/* Page content */}
-        <main className="p-6 bg-background min-h-[calc(100vh-4rem)]">
+        <main className="flex-1 p-6 bg-background overflow-auto">
           {children}
         </main>
       </div>
