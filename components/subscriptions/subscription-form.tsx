@@ -22,10 +22,10 @@ import {
 } from "@/components/ui/select";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Loader2, DollarSign, Calendar, Users } from "lucide-react";
-import type { BeneficiaryWithRelations } from "@/lib/types";
+import type { Beneficiary } from "@prisma/client";
 
 interface SubscriptionFormProps {
-  beneficiaries: BeneficiaryWithRelations[];
+  beneficiaries: Beneficiary[];
 }
 
 export function SubscriptionForm({ beneficiaries }: SubscriptionFormProps) {
@@ -111,8 +111,10 @@ export function SubscriptionForm({ beneficiaries }: SubscriptionFormProps) {
               <div className="relative">
                 <Users className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
                 <Select
-                  value={selectedBeneficiary}
-                  onValueChange={setSelectedBeneficiary}
+                  value={formData.beneficiaryId}
+                  onValueChange={(value) =>
+                    handleChange("beneficiaryId", value)
+                  }
                 >
                   <SelectTrigger className="pl-10 h-12">
                     <SelectValue placeholder="Select a beneficiary" />
