@@ -1,13 +1,26 @@
-import { requireAuth } from "@/lib/auth-utils"
-import { prisma } from "@/lib/prisma"
-import { DashboardLayout } from "@/components/layout/dashboard-layout"
-import { StatsCard } from "@/components/dashboard/stats-card"
-import { EmptyState } from "@/components/dashboard/empty-state"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { DollarSign, CreditCard, Send, Users, Plus, ArrowRight } from "lucide-react"
-import Link from "next/link"
-import { format } from "date-fns"
+import { requireAuth } from "@/lib/auth-utils";
+import { prisma } from "@/lib/prisma";
+import { DashboardLayout } from "@/components/layout/dashboard-layout";
+import { StatsCard } from "@/components/dashboard/stats-card";
+import { EmptyState } from "@/components/dashboard/empty-state";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import {
+  DollarSign,
+  CreditCard,
+  Send,
+  Users,
+  Plus,
+  ArrowRight,
+} from "lucide-react";
+import Link from "next/link";
+import { format } from "date-fns";
 
 async function getDashboardData(userId: string) {
   const [subscriptions, transfers, beneficiaries] = await Promise.all([
@@ -27,10 +40,15 @@ async function getDashboardData(userId: string) {
       where: { userId, isActive: true },
       orderBy: { createdAt: "desc" },
     }),
-  ])
+  ]);
 
-  const totalTransferred = transfers.reduce((sum, transfer) => sum + Number(transfer.amountCAD), 0)
-  const pendingTransfers = transfers.filter((t) => t.status === "PENDING").length
+  const totalTransferred = transfers.reduce(
+    (sum, transfer) => sum + Number(transfer.amountCAD),
+    0
+  );
+  const pendingTransfers = transfers.filter(
+    (t) => t.status === "PENDING"
+  ).length;
 
   return {
     subscriptions,
@@ -42,20 +60,24 @@ async function getDashboardData(userId: string) {
       totalBeneficiaries: beneficiaries.length,
       pendingTransfers,
     },
-  }
+  };
 }
 
 export default async function DashboardPage() {
-  const user = await requireAuth()
-  const data = await getDashboardData(user.id)
+  const user = await requireAuth();
+  const data = await getDashboardData(user.id);
 
   return (
     <DashboardLayout>
       <div className="space-y-8">
         {/* Welcome Section */}
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Welcome back, {user.name}</h1>
-          <p className="text-muted-foreground mt-2">Here's an overview of your money transfer activity</p>
+          <h1 className="text-3xl font-bold text-foreground">
+            Welcome back, {user.name}
+          </h1>
+          <p className="text-muted-foreground mt-2">
+            Here's an overview of your money transfer activity
+          </p>
         </div>
 
         {/* Stats Grid */}
@@ -94,20 +116,40 @@ export default async function DashboardPage() {
           </CardHeader>
           <CardContent>
             <div className="grid gap-4 md:grid-cols-3">
-              <Button asChild className="h-auto p-6 bg-emerald-600 hover:bg-emerald-700">
-                <Link href="/dashboard/beneficiaries/new" className="flex flex-col items-center space-y-2">
+              <Button
+                asChild
+                className="h-auto p-6 bg-emerald-600 hover:bg-emerald-700"
+              >
+                <Link
+                  href="/dashboard/beneficiaries/new"
+                  className="flex flex-col items-center space-y-2"
+                >
                   <Plus className="h-6 w-6" />
                   <span>Add Beneficiary</span>
                 </Link>
               </Button>
-              <Button asChild variant="outline" className="h-auto p-6 bg-transparent">
-                <Link href="/dashboard/subscriptions/new" className="flex flex-col items-center space-y-2">
+              <Button
+                asChild
+                variant="outline"
+                className="h-auto p-6 bg-transparent"
+              >
+                <Link
+                  href="/dashboard/subscriptions/new"
+                  className="flex flex-col items-center space-y-2"
+                >
                   <CreditCard className="h-6 w-6" />
                   <span>Create Subscription</span>
                 </Link>
               </Button>
-              <Button asChild variant="outline" className="h-auto p-6 bg-transparent">
-                <Link href="/dashboard/transfers/new" className="flex flex-col items-center space-y-2">
+              <Button
+                asChild
+                variant="outline"
+                className="h-auto p-6 bg-transparent"
+              >
+                <Link
+                  href="/dashboard/transfers/new"
+                  className="flex flex-col items-center space-y-2"
+                >
                   <Send className="h-6 w-6" />
                   <span>Send Money</span>
                 </Link>
@@ -133,11 +175,11 @@ export default async function DashboardPage() {
             <CardContent>
               {data.subscriptions.length === 0 ? (
                 <EmptyState
-                  icon={CreditCard}
+                  icon="CreditCard"
                   title="No subscriptions yet"
                   description="Create your first recurring transfer to get started"
                   actionLabel="Create Subscription"
-                  onAction={() => {}}
+                  actionHref="/dashboard/subscriptions"
                 />
               ) : (
                 <div className="space-y-4">
@@ -147,14 +189,21 @@ export default async function DashboardPage() {
                       className="flex items-center justify-between p-4 border border-gray-200 rounded-lg"
                     >
                       <div>
-                        <p className="font-medium text-foreground">{subscription.beneficiary.name}</p>
+                        <p className="font-medium text-foreground">
+                          {subscription.beneficiary.name}
+                        </p>
                         <p className="text-sm text-muted-foreground">
-                          ${subscription.amountCAD.toString()} CAD • {subscription.frequency}
+                          ${subscription.amountCAD.toString()} CAD •{" "}
+                          {subscription.frequency}
                         </p>
                       </div>
                       <div className="text-right">
                         <p className="text-sm font-medium text-foreground">
-                          Next: {format(new Date(subscription.nextTransferDate), "MMM dd")}
+                          Next:{" "}
+                          {format(
+                            new Date(subscription.nextTransferDate),
+                            "MMM dd"
+                          )}
                         </p>
                         <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
                           Active
@@ -183,11 +232,11 @@ export default async function DashboardPage() {
             <CardContent>
               {data.transfers.length === 0 ? (
                 <EmptyState
-                  icon={Send}
+                  icon="Send"
                   title="No transfers yet"
                   description="Send your first money transfer to Madagascar"
                   actionLabel="Send Money"
-                  onAction={() => {}}
+                  actionHref="/dashboard/transfers"
                 />
               ) : (
                 <div className="space-y-4">
@@ -197,20 +246,24 @@ export default async function DashboardPage() {
                       className="flex items-center justify-between p-4 border border-gray-200 rounded-lg"
                     >
                       <div>
-                        <p className="font-medium text-foreground">{transfer.beneficiary.name}</p>
+                        <p className="font-medium text-foreground">
+                          {transfer.beneficiary.name}
+                        </p>
                         <p className="text-sm text-muted-foreground">
                           {format(new Date(transfer.createdAt), "MMM dd, yyyy")}
                         </p>
                       </div>
                       <div className="text-right">
-                        <p className="font-medium text-foreground">${transfer.amountCAD.toString()} CAD</p>
+                        <p className="font-medium text-foreground">
+                          ${transfer.amountCAD.toString()} CAD
+                        </p>
                         <span
                           className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
                             transfer.status === "COMPLETED"
                               ? "bg-emerald-100 text-emerald-800"
                               : transfer.status === "PENDING"
-                                ? "bg-yellow-100 text-yellow-800"
-                                : "bg-red-100 text-red-800"
+                              ? "bg-yellow-100 text-yellow-800"
+                              : "bg-red-100 text-red-800"
                           }`}
                         >
                           {transfer.status.toLowerCase()}
@@ -225,5 +278,5 @@ export default async function DashboardPage() {
         </div>
       </div>
     </DashboardLayout>
-  )
+  );
 }

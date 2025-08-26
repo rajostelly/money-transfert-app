@@ -1,17 +1,53 @@
-"use client"
-import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import type { LucideIcon } from "lucide-react"
+"use client";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import {
+  CreditCard,
+  Send,
+  Users,
+  DollarSign,
+  Plus,
+  ArrowRight,
+  Bell,
+  BellOff,
+  CheckCheck,
+  CheckCircle,
+  Clock,
+} from "lucide-react";
 
 interface EmptyStateProps {
-  icon: LucideIcon
-  title: string
-  description: string
-  actionLabel?: string
-  onAction?: () => void
+  icon: string;
+  title: string;
+  description: string;
+  actionLabel?: string;
+  actionHref?: string;
+  onAction?: () => void;
 }
 
-export function EmptyState({ icon: Icon, title, description, actionLabel, onAction }: EmptyStateProps) {
+const iconMap = {
+  CreditCard,
+  Send,
+  Users,
+  DollarSign,
+  Plus,
+  ArrowRight,
+  Bell,
+  BellOff,
+  CheckCheck,
+  CheckCircle,
+  Clock,
+} as const;
+
+export function EmptyState({
+  icon,
+  title,
+  description,
+  actionLabel,
+  actionHref,
+  onAction,
+}: EmptyStateProps) {
+  const Icon = iconMap[icon as keyof typeof iconMap] || CreditCard;
+
   return (
     <Card className="shadow-sm">
       <CardContent className="flex flex-col items-center justify-center py-16 text-center">
@@ -20,12 +56,21 @@ export function EmptyState({ icon: Icon, title, description, actionLabel, onActi
         </div>
         <h3 className="text-lg font-semibold text-foreground mb-2">{title}</h3>
         <p className="text-muted-foreground mb-6 max-w-sm">{description}</p>
-        {actionLabel && onAction && (
-          <Button onClick={onAction} className="bg-emerald-600 hover:bg-emerald-700">
-            {actionLabel}
-          </Button>
-        )}
+        {actionLabel &&
+          (actionHref || onAction) &&
+          (actionHref ? (
+            <Button asChild className="bg-emerald-600 hover:bg-emerald-700">
+              <a href={actionHref}>{actionLabel}</a>
+            </Button>
+          ) : (
+            <Button
+              onClick={onAction}
+              className="bg-emerald-600 hover:bg-emerald-700"
+            >
+              {actionLabel}
+            </Button>
+          ))}
       </CardContent>
     </Card>
-  )
+  );
 }

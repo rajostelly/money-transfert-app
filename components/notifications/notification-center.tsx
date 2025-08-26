@@ -1,24 +1,27 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { NotificationItem } from "./notification-item"
-import { EmptyState } from "@/components/dashboard/empty-state"
-import { Bell, BellOff, CheckCheck } from "lucide-react"
-import type { Notification } from "@prisma/client"
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { NotificationItem } from "./notification-item";
+import { EmptyState } from "@/components/dashboard/empty-state";
+import { Bell, BellOff, CheckCheck } from "lucide-react";
+import type { Notification } from "@prisma/client";
 
 interface NotificationCenterProps {
-  initialNotifications: Notification[]
+  initialNotifications: Notification[];
 }
 
-export function NotificationCenter({ initialNotifications }: NotificationCenterProps) {
-  const [notifications, setNotifications] = useState<Notification[]>(initialNotifications)
-  const [isLoading, setIsLoading] = useState(false)
+export function NotificationCenter({
+  initialNotifications,
+}: NotificationCenterProps) {
+  const [notifications, setNotifications] =
+    useState<Notification[]>(initialNotifications);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const unreadNotifications = notifications.filter((n) => !n.isRead)
-  const readNotifications = notifications.filter((n) => n.isRead)
+  const unreadNotifications = notifications.filter((n) => !n.isRead);
+  const readNotifications = notifications.filter((n) => n.isRead);
 
   const handleMarkAsRead = async (id: string) => {
     try {
@@ -28,53 +31,57 @@ export function NotificationCenter({ initialNotifications }: NotificationCenterP
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ isRead: true }),
-      })
+      });
 
       if (response.ok) {
-        setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, isRead: true } : n)))
+        setNotifications((prev) =>
+          prev.map((n) => (n.id === id ? { ...n, isRead: true } : n))
+        );
       }
     } catch (error) {
-      console.error("Failed to mark notification as read:", error)
+      console.error("Failed to mark notification as read:", error);
     }
-  }
+  };
 
   const handleDelete = async (id: string) => {
     try {
       const response = await fetch(`/api/notifications/${id}`, {
         method: "DELETE",
-      })
+      });
 
       if (response.ok) {
-        setNotifications((prev) => prev.filter((n) => n.id !== id))
+        setNotifications((prev) => prev.filter((n) => n.id !== id));
       }
     } catch (error) {
-      console.error("Failed to delete notification:", error)
+      console.error("Failed to delete notification:", error);
     }
-  }
+  };
 
   const handleMarkAllAsRead = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
       const response = await fetch("/api/notifications/mark-all-read", {
         method: "POST",
-      })
+      });
 
       if (response.ok) {
-        setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })))
+        setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
       }
     } catch (error) {
-      console.error("Failed to mark all as read:", error)
+      console.error("Failed to mark all as read:", error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-foreground">Notifications</h1>
-          <p className="text-muted-foreground mt-2">Stay updated with your transfer activities</p>
+          <p className="text-muted-foreground mt-2">
+            Stay updated with your transfer activities
+          </p>
         </div>
         {unreadNotifications.length > 0 && (
           <Button
@@ -98,16 +105,20 @@ export function NotificationCenter({ initialNotifications }: NotificationCenterP
           <TabsTrigger value="unread" className="relative">
             Unread ({unreadNotifications.length})
             {unreadNotifications.length > 0 && (
-              <Badge className="ml-2 h-5 w-5 p-0 bg-emerald-600 text-white text-xs">{unreadNotifications.length}</Badge>
+              <Badge className="ml-2 h-5 w-5 p-0 bg-emerald-600 text-white text-xs">
+                {unreadNotifications.length}
+              </Badge>
             )}
           </TabsTrigger>
-          <TabsTrigger value="read">Read ({readNotifications.length})</TabsTrigger>
+          <TabsTrigger value="read">
+            Read ({readNotifications.length})
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="all" className="space-y-4">
           {notifications.length === 0 ? (
             <EmptyState
-              icon={Bell}
+              icon="Bell"
               title="No notifications yet"
               description="You'll receive notifications about your transfers and subscriptions here"
             />
@@ -128,7 +139,7 @@ export function NotificationCenter({ initialNotifications }: NotificationCenterP
         <TabsContent value="unread" className="space-y-4">
           {unreadNotifications.length === 0 ? (
             <EmptyState
-              icon={BellOff}
+              icon="BellOff"
               title="No unread notifications"
               description="All caught up! You have no unread notifications."
             />
@@ -149,7 +160,7 @@ export function NotificationCenter({ initialNotifications }: NotificationCenterP
         <TabsContent value="read" className="space-y-4">
           {readNotifications.length === 0 ? (
             <EmptyState
-              icon={Bell}
+              icon="Bell"
               title="No read notifications"
               description="Notifications you've read will appear here"
             />
@@ -168,5 +179,5 @@ export function NotificationCenter({ initialNotifications }: NotificationCenterP
         </TabsContent>
       </Tabs>
     </div>
-  )
+  );
 }
