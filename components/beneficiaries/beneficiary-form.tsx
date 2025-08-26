@@ -1,71 +1,110 @@
-"use client"
+"use client";
 
-import type React from "react"
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Loader2, User, Phone, MapPin, Home } from "lucide-react"
+import type React from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Loader2, User, Phone, MapPin, Home } from "lucide-react";
+import type { Beneficiary } from "@prisma/client";
 
-export function BeneficiaryForm() {
+interface BeneficiaryFormProps {
+  beneficiary?: Beneficiary;
+  mode?: "create" | "edit";
+}
+
+export function BeneficiaryForm({
+  beneficiary,
+  mode = "create",
+}: BeneficiaryFormProps) {
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
     address: "",
     city: "",
     country: "Madagascar",
-  })
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState("")
-  const router = useRouter()
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const router = useRouter();
+
+  // Initialize form data with beneficiary data if in edit mode
+  useEffect(() => {
+    if (beneficiary && mode === "edit") {
+      setFormData({
+        name: beneficiary.name,
+        phone: beneficiary.phone,
+        address: beneficiary.address || "",
+        city: beneficiary.city,
+        country: beneficiary.country,
+      });
+    }
+  }, [beneficiary, mode]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
-    }))
-  }
+    }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
-    setError("")
+    e.preventDefault();
+    setIsLoading(true);
+    setError("");
 
     try {
-      const response = await fetch("/api/beneficiaries", {
-        method: "POST",
+      const url =
+        mode === "edit" && beneficiary
+          ? `/api/beneficiaries/${beneficiary.id}`
+          : "/api/beneficiaries";
+
+      const method = mode === "edit" ? "PUT" : "POST";
+
+      const response = await fetch(url, {
+        method,
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
-      })
+      });
 
-      const data = await response.json()
+      const data = await response.json();
 
       if (!response.ok) {
-        setError(data.error || "Failed to create beneficiary")
+        setError(data.error || `Failed to ${mode} beneficiary`);
       } else {
-        router.push("/dashboard/beneficiaries")
-        router.refresh()
+        router.push("/dashboard/beneficiaries");
+        router.refresh();
       }
     } catch (error) {
-      setError("An error occurred. Please try again.")
+      setError("An error occurred. Please try again.");
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <div className="max-w-2xl mx-auto">
       <Card className="shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-2xl">Add Beneficiary</CardTitle>
-          <CardDescription>Add someone who will receive your money transfers</CardDescription>
-        </CardHeader>
-        <CardContent>
+        {mode === "create" && (
+          <CardHeader>
+            <CardTitle className="text-2xl">Add Beneficiary</CardTitle>
+            <CardDescription>
+              Add someone who will receive your money transfers
+            </CardDescription>
+          </CardHeader>
+        )}
+        <CardContent className={mode === "edit" ? "pt-6" : ""}>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
               <Label htmlFor="name" className="text-sm font-medium">
@@ -158,7 +197,9 @@ export function BeneficiaryForm() {
                   readOnly
                 />
               </div>
-              <p className="text-sm text-muted-foreground">Currently only supporting transfers to Madagascar</p>
+              <p className="text-sm text-muted-foreground">
+                Currently only supporting transfers to Madagascar
+              </p>
             </div>
 
             {error && (
@@ -176,12 +217,18 @@ export function BeneficiaryForm() {
               >
                 Cancel
               </Button>
-              <Button type="submit" className="flex-1 bg-emerald-600 hover:bg-emerald-700" disabled={isLoading}>
+              <Button
+                type="submit"
+                className="flex-1 bg-emerald-600 hover:bg-emerald-700"
+                disabled={isLoading}
+              >
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Adding...
+                    {mode === "edit" ? "Updating..." : "Adding..."}
                   </>
+                ) : mode === "edit" ? (
+                  "Update Beneficiary"
                 ) : (
                   "Add Beneficiary"
                 )}
@@ -191,5 +238,5 @@ export function BeneficiaryForm() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

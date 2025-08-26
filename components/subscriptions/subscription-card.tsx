@@ -22,10 +22,14 @@ import {
   MapPin,
 } from "lucide-react";
 import { format } from "date-fns";
-import type { SubscriptionWithRelations } from "@/lib/types";
+import type { Subscription, Beneficiary } from "@prisma/client";
+
+type SubscriptionWithBeneficiary = Subscription & {
+  beneficiary: Beneficiary;
+};
 
 interface SubscriptionCardProps {
-  subscription: SubscriptionWithRelations;
+  subscription: SubscriptionWithBeneficiary;
   onStatusChange: (
     id: string,
     status: "ACTIVE" | "PAUSED" | "CANCELLED"
