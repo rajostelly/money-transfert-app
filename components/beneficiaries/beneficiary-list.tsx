@@ -109,27 +109,39 @@ export function BeneficiaryList({ beneficiaries }: BeneficiaryListProps) {
 
       {/* Beneficiaries Grid */}
       {filteredBeneficiaries.length === 0 ? (
-        <div className="text-center py-12">
-          <p className="text-muted-foreground">
-            No beneficiaries match your search.
-          </p>
-        </div>
+        searchTerm ? (
+          <div className="text-center py-12">
+            <p className="text-muted-foreground">
+              No beneficiaries match your search.
+            </p>
+          </div>
+        ) : (
+          <EmptyState
+            icon="Users"
+            title="No beneficiaries yet"
+            description="Add your first beneficiary to start sending money transfers."
+            actionLabel="Add Beneficiary"
+            actionHref="/dashboard/beneficiaries/new"
+          />
+        )
       ) : (
-        <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="grid gap-6 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
           {filteredBeneficiaries.map((beneficiary) => (
             <Card
               key={beneficiary.id}
-              className="shadow-sm hover:shadow-md transition-shadow flex flex-col"
+              className="shadow-sm hover:shadow-md transition-shadow flex flex-col h-full min-w-0 w-full"
             >
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 flex-shrink-0">
-                <CardTitle className="text-lg font-semibold truncate pr-2">
-                  {beneficiary.name}
-                </CardTitle>
+              <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-4 flex-shrink-0">
+                <div className="flex-1 min-w-0">
+                  <CardTitle className="text-lg font-semibold truncate">
+                    {beneficiary.name}
+                  </CardTitle>
+                </div>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button
                       variant="ghost"
-                      className="h-8 w-8 p-0 flex-shrink-0"
+                      className="h-8 w-8 p-0 flex-shrink-0 ml-2"
                     >
                       <MoreHorizontal className="h-4 w-4" />
                     </Button>
@@ -154,42 +166,53 @@ export function BeneficiaryList({ beneficiaries }: BeneficiaryListProps) {
                   </DropdownMenuContent>
                 </DropdownMenu>
               </CardHeader>
-              <CardContent className="space-y-3 flex-1 flex flex-col">
-                <div className="space-y-3 flex-1">
-                  <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                    <MapPin className="h-4 w-4 flex-shrink-0" />
-                    <span className="truncate">
-                      {beneficiary.city}, {beneficiary.country}
-                    </span>
+              <CardContent className="flex flex-col flex-1 p-6 pt-0">
+                <div className="space-y-4 flex-1">
+                  <div className="flex items-start space-x-3">
+                    <MapPin className="h-4 w-4 text-muted-foreground mt-0.5 flex-shrink-0" />
+                    <div className="min-w-0 flex-1">
+                      <p className="text-sm font-medium text-foreground">
+                        {beneficiary.city}, {beneficiary.country}
+                      </p>
+                    </div>
                   </div>
 
-                  <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                    <Phone className="h-4 w-4 flex-shrink-0" />
-                    <span className="truncate">{beneficiary.phone}</span>
+                  <div className="flex items-start space-x-3">
+                    <Phone className="h-4 w-4 text-muted-foreground mt-0.5 flex-shrink-0" />
+                    <div className="min-w-0 flex-1">
+                      <p className="text-sm font-medium text-foreground">
+                        {beneficiary.phone}
+                      </p>
+                    </div>
                   </div>
 
                   {beneficiary.address && (
-                    <div className="text-sm text-muted-foreground">
-                      <p className="truncate" title={beneficiary.address}>
-                        {beneficiary.address}
-                      </p>
+                    <div className="flex items-start space-x-3">
+                      <div className="h-4 w-4 mt-0.5 flex-shrink-0" />
+                      <div className="min-w-0 flex-1">
+                        <p
+                          className="text-sm text-muted-foreground"
+                          title={beneficiary.address}
+                        >
+                          {beneficiary.address}
+                        </p>
+                      </div>
                     </div>
                   )}
 
-                  <div className="pt-2 border-t">
+                  <div className="pt-3 border-t">
                     <Badge variant="secondary" className="text-xs">
                       Active
                     </Badge>
                   </div>
                 </div>
 
-                {/* Quick Actions */}
-                <div className="flex space-x-2 pt-2 mt-auto">
+                {/* Action Buttons */}
+                <div className="flex flex-col space-y-2 pt-4 mt-auto">
                   <Button
                     asChild
                     size="sm"
-                    variant="outline"
-                    className="flex-1"
+                    className="w-full bg-emerald-600 hover:bg-emerald-700"
                   >
                     <Link
                       href={`/dashboard/transfers/new?beneficiary=${beneficiary.id}`}
@@ -201,7 +224,7 @@ export function BeneficiaryList({ beneficiaries }: BeneficiaryListProps) {
                     asChild
                     size="sm"
                     variant="outline"
-                    className="flex-1"
+                    className="w-full"
                   >
                     <Link
                       href={`/dashboard/subscriptions/new?beneficiary=${beneficiary.id}`}

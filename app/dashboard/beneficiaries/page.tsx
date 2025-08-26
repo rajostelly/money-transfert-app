@@ -29,7 +29,7 @@ export default async function BeneficiariesPage() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-8 max-w-7xl mx-auto">
+      <div className="space-y-6 max-w-7xl mx-auto p-6">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="space-y-1">
@@ -42,7 +42,7 @@ export default async function BeneficiariesPage() {
           </div>
           <Button
             asChild
-            className="bg-emerald-600 hover:bg-emerald-700 whitespace-nowrap"
+            className="bg-emerald-600 hover:bg-emerald-700 whitespace-nowrap flex-shrink-0"
           >
             <Link href="/dashboard/beneficiaries/new">
               <Plus className="mr-2 h-4 w-4" />
@@ -87,18 +87,16 @@ export default async function BeneficiariesPage() {
         </Card>
 
         {/* Beneficiaries List */}
-        <Card className="shadow-sm">
-          <CardHeader>
-            <CardTitle>Your Beneficiaries</CardTitle>
-            <CardDescription>
-              People you can send money to. Click on a beneficiary to edit their
-              details.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <BeneficiaryList beneficiaries={beneficiaries} />
-          </CardContent>
-        </Card>
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-semibold">Your Beneficiaries</h2>
+          </div>
+          <p className="text-muted-foreground text-sm">
+            People you can send money to. Click on a beneficiary to edit their
+            details.
+          </p>
+          <BeneficiaryList beneficiaries={beneficiaries} />
+        </div>
       </div>
     </DashboardLayout>
   );
