@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -96,9 +97,14 @@ export function SubscriptionCard({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem>
-                <Edit className="mr-2 h-5 w-5" />
-                <span>Edit</span>
+              <DropdownMenuItem asChild>
+                <Link
+                  href={`/dashboard/subscriptions/${subscription.id}/edit`}
+                  className="flex items-center w-full"
+                >
+                  <Edit className="mr-2 h-5 w-5" />
+                  <span>Edit</span>
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
                 {subscription.status === "ACTIVE" ? (
