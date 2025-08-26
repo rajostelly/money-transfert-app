@@ -14,7 +14,14 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Loader2, User, Phone, MapPin, Home } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Loader2, User, Phone, MapPin, Home, Smartphone } from "lucide-react";
 import type { Beneficiary } from "@prisma/client";
 
 interface BeneficiaryFormProps {
@@ -32,6 +39,7 @@ export function BeneficiaryForm({
     address: "",
     city: "",
     country: "Madagascar",
+    operator: "",
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -46,6 +54,7 @@ export function BeneficiaryForm({
         address: beneficiary.address || "",
         city: beneficiary.city,
         country: beneficiary.country,
+        operator: (beneficiary as any).operator || "",
       });
     }
   }, [beneficiary, mode]);
@@ -142,6 +151,38 @@ export function BeneficiaryForm({
                   required
                 />
               </div>
+              <p className="text-xs text-muted-foreground">
+                Include country code (e.g., +261 for Madagascar)
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="operator" className="text-sm font-medium">
+                Mobile Money Operator (Optional)
+              </Label>
+              <div className="relative">
+                <Smartphone className="absolute left-3 top-3 h-3 w-3 text-muted-foreground" />
+                <Select
+                  value={formData.operator}
+                  onValueChange={(value) =>
+                    setFormData((prev) => ({ ...prev, operator: value }))
+                  }
+                >
+                  <SelectTrigger className="pl-10 h-12">
+                    <SelectValue placeholder="Select mobile money operator" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="">No operator</SelectItem>
+                    <SelectItem value="Orange Money">Orange Money</SelectItem>
+                    <SelectItem value="Airtel Money">Airtel Money</SelectItem>
+                    <SelectItem value="Telma Money">Telma Money</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Selecting an operator enables automatic transfers for this
+                beneficiary
+              </p>
             </div>
 
             <div className="space-y-2">

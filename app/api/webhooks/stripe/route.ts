@@ -3,6 +3,7 @@ import { stripe } from "@/lib/stripe-server";
 import { prisma } from "@/lib/prisma";
 import { emailService } from "@/lib/email-service";
 import { NotificationService } from "@/lib/notification-service";
+import { MobileMoneyService } from "@/lib/mobile-money-service";
 
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
@@ -97,7 +98,74 @@ async function handlePaymentSucceeded(invoice: any) {
         type: "SUBSCRIPTION",
         status: "PENDING",
       },
+      include: {
+        beneficiary: true,
+        user: true,
+      },
     });
+
+    // Try mobile money automation if supported
+    if (
+      MobileMoneyService.isAutomationSupported(subscription.beneficiary.phone)
+    ) {
+      try {
+        const mobileMoneyResult = await MobileMoneyService.sendMoney({
+          recipientPhone: subscription.beneficiary.phone,
+          amount: Number(amountMGA),
+          currency: "MGA",
+          reference: `SUBSCRIPTION_${transfer.id}`,
+          transferId: transfer.id,
+          beneficiaryName: subscription.beneficiary.name,
+        });
+
+        // Update transfer with automation results
+        await prisma.transfer.update({
+          where: { id: transfer.id },
+          data: {
+            status: mobileMoneyResult.success ? "COMPLETED" : "PENDING",
+            autoProcessed: mobileMoneyResult.success,
+            mobileMoneyTransactionId: mobileMoneyResult.transactionId,
+            mobileMoneyError: mobileMoneyResult.error,
+            confirmedAt: mobileMoneyResult.success ? new Date() : null,
+          },
+        });
+
+        if (mobileMoneyResult.success) {
+          console.log(
+            `Mobile money automation successful for transfer ${transfer.id}:`,
+            mobileMoneyResult.transactionId
+          );
+
+          // Notify about successful automation
+          await NotificationService.createNotification(
+            subscription.userId,
+            "TRANSFER_COMPLETED",
+            "Subscription Transfer Automated",
+            `Your subscription transfer of ${amountMGA.toLocaleString()} MGA to ${
+              subscription.beneficiary.name
+            } was automatically processed via ${MobileMoneyService.getOperatorName(
+              subscription.beneficiary.phone
+            )}.`
+          );
+        } else {
+          console.log(
+            `Mobile money automation failed for transfer ${transfer.id}:`,
+            mobileMoneyResult.error
+          );
+
+          // Notify about failed automation - will need manual processing
+          await NotificationService.createNotification(
+            subscription.userId,
+            "TRANSFER_REMINDER",
+            "Transfer Processing",
+            `Your subscription transfer to ${subscription.beneficiary.name} is being processed manually. You'll be notified when it's ready for pickup.`
+          );
+        }
+      } catch (automationError) {
+        console.error("Mobile money automation error:", automationError);
+        // Continue with manual processing flow
+      }
+    }
 
     // Update next transfer date
     const nextDate = calculateNextTransferDate(subscription.frequency);

@@ -56,13 +56,20 @@ export default async function MadagascarDashboardPage() {
     <DashboardLayout>
       <div className="space-y-8">
         {/* Welcome Section */}
-        <div>
-          <h1 className="text-3xl font-bold text-foreground">
-            Madagascar Team Dashboard
-          </h1>
-          <p className="text-muted-foreground mt-2">
-            Confirm and manage money transfers to beneficiaries
-          </p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-foreground">
+              Madagascar Team Dashboard
+            </h1>
+            <p className="text-muted-foreground mt-2">
+              Confirm and manage money transfers to beneficiaries
+            </p>
+          </div>
+          <Button asChild className="bg-blue-600 hover:bg-blue-700">
+            <a href="/madagascar/transfers/enhanced">
+              🔍 Advanced Transfer Management
+            </a>
+          </Button>
         </div>
 
         {/* Stats Grid */}

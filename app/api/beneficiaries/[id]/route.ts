@@ -9,6 +9,7 @@ const updateBeneficiarySchema = z.object({
   address: z.string().optional(),
   city: z.string().min(1, "City is required"),
   country: z.string().default("Madagascar"),
+  operator: z.string().optional(),
 });
 
 interface RouteParams {
@@ -23,7 +24,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     }
 
     const body = await request.json();
-    const { name, phone, address, city, country } =
+    const { name, phone, address, city, country, operator } =
       updateBeneficiarySchema.parse(body);
 
     // Check if beneficiary exists and belongs to user
@@ -51,6 +52,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
         address: address || null,
         city,
         country,
+        operator: operator || null,
       },
     });
 

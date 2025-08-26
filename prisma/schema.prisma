@@ -83,6 +83,7 @@ model Beneficiary {
   address     String?
   city        String
   country     String  @default("Madagascar")
+  operator    String? // Mobile money operator (Orange Money, Airtel Money, etc.)
   isActive    Boolean @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -130,6 +131,12 @@ model Transfer {
   stripePaymentIntentId String?
   confirmedAt     DateTime?
   confirmedBy     String?       // User ID of Madagascar team member
+  
+  // Mobile Money automation fields
+  autoProcessed   Boolean       @default(false)  // Whether this was processed automatically
+  mobileMoneyTransactionId String?              // Transaction ID from mobile money provider
+  mobileMoneyError String?                      // Error message if mobile money transfer failed
+  
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
 

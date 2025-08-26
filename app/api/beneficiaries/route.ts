@@ -9,6 +9,7 @@ const createBeneficiarySchema = z.object({
   address: z.string().optional(),
   city: z.string().min(1, "City is required"),
   country: z.string().default("Madagascar"),
+  operator: z.string().optional(),
 });
 
 export async function POST(request: NextRequest) {
@@ -19,7 +20,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { name, phone, address, city, country } =
+    const { name, phone, address, city, country, operator } =
       createBeneficiarySchema.parse(body);
 
     const beneficiary = await prisma.beneficiary.create({
@@ -30,6 +31,7 @@ export async function POST(request: NextRequest) {
         address: address || null,
         city,
         country,
+        operator: operator || null,
         isActive: true,
       },
     });
