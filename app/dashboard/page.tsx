@@ -69,9 +69,9 @@ export default async function DashboardPage() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-8">
+      <div className="w-full max-w-7xl mx-auto space-y-8">
         {/* Welcome Section */}
-        <div>
+        <div className="mb-8">
           <h1 className="text-3xl font-bold text-foreground">
             Welcome back, {user.name}
           </h1>
