@@ -125,15 +125,15 @@ export function BeneficiaryList({ beneficiaries }: BeneficiaryListProps) {
           />
         )
       ) : (
-        <div className="grid gap-6 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
+        <div className="grid gap-8 sm:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3">
           {filteredBeneficiaries.map((beneficiary) => (
             <Card
               key={beneficiary.id}
-              className="shadow-sm hover:shadow-md transition-shadow flex flex-col h-full min-w-0 w-full"
+              className="shadow-sm hover:shadow-md transition-shadow flex flex-col h-full min-w-0 w-full min-h-[320px]"
             >
-              <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-4 flex-shrink-0">
+              <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-4 flex-shrink-0 px-8 pt-6">
                 <div className="flex-1 min-w-0">
-                  <CardTitle className="text-lg font-semibold truncate">
+                  <CardTitle className="text-xl font-semibold truncate">
                     {beneficiary.name}
                   </CardTitle>
                 </div>
@@ -166,7 +166,7 @@ export function BeneficiaryList({ beneficiaries }: BeneficiaryListProps) {
                   </DropdownMenuContent>
                 </DropdownMenu>
               </CardHeader>
-              <CardContent className="flex flex-col flex-1 p-6 pt-0">
+              <CardContent className="flex flex-col flex-1 px-8 pb-8 pt-0">
                 <div className="space-y-4 flex-1">
                   <div className="flex items-start space-x-3">
                     <MapPin className="h-4 w-4 text-muted-foreground mt-0.5 flex-shrink-0" />
@@ -208,11 +208,11 @@ export function BeneficiaryList({ beneficiaries }: BeneficiaryListProps) {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex flex-col space-y-2 pt-4 mt-auto">
+                <div className="flex flex-col space-y-3 pt-6 mt-auto">
                   <Button
                     asChild
-                    size="sm"
-                    className="w-full bg-emerald-600 hover:bg-emerald-700"
+                    size="default"
+                    className="w-full bg-emerald-600 hover:bg-emerald-700 h-10"
                   >
                     <Link
                       href={`/dashboard/transfers/new?beneficiary=${beneficiary.id}`}
@@ -222,9 +222,9 @@ export function BeneficiaryList({ beneficiaries }: BeneficiaryListProps) {
                   </Button>
                   <Button
                     asChild
-                    size="sm"
+                    size="default"
                     variant="outline"
-                    className="w-full"
+                    className="w-full h-10"
                   >
                     <Link
                       href={`/dashboard/subscriptions/new?beneficiary=${beneficiary.id}`}
