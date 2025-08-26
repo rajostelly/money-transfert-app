@@ -102,7 +102,16 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         )}
       >
         <div className="flex items-center justify-between h-16 px-6 border-b border-border">
-          <h1 className="text-xl font-bold text-emerald-600">TransferApp</h1>
+          <div className="flex items-center space-x-3">
+            <div className="flex-shrink-0">
+              <img
+                src="/placeholder-logo.svg"
+                alt="TransferApp Logo"
+                className="h-8 w-8"
+              />
+            </div>
+            <h1 className="text-xl font-bold text-emerald-600">TransferApp</h1>
+          </div>
           <Button
             variant="ghost"
             size="sm"
@@ -128,7 +137,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                 )}
                 onClick={() => setSidebarOpen(false)}
               >
-                <item.icon className="mr-3 h-5 w-5" />
+                <item.icon className="mr-3 h-6 w-6" />
                 {item.label}
               </Link>
             );
@@ -147,7 +156,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
               className="lg:hidden"
               onClick={() => setSidebarOpen(true)}
             >
-              <Menu className="h-5 w-5" />
+              <Menu className="h-6 w-6" />
             </Button>
 
             <div className="flex items-center space-x-4 ml-auto">
@@ -179,7 +188,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={handleSignOut}>
-                    <LogOut className="mr-2 h-4 w-4" />
+                    <LogOut className="mr-2 h-5 w-5" />
                     <span>Log out</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>

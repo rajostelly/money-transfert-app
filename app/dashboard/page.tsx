@@ -168,7 +168,7 @@ export default async function DashboardPage() {
               </div>
               <Button asChild variant="ghost" size="sm">
                 <Link href="/dashboard/subscriptions">
-                  View all <ArrowRight className="ml-2 h-4 w-4" />
+                  View all <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
             </CardHeader>
@@ -225,7 +225,7 @@ export default async function DashboardPage() {
               </div>
               <Button asChild variant="ghost" size="sm">
                 <Link href="/dashboard/transfers">
-                  View all <ArrowRight className="ml-2 h-4 w-4" />
+                  View all <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
             </CardHeader>

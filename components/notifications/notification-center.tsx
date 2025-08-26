@@ -91,7 +91,7 @@ export function NotificationCenter({
             size="sm"
             className="bg-transparent"
           >
-            <CheckCheck className="mr-2 h-4 w-4" />
+            <CheckCheck className="mr-2 h-5 w-5" />
             Mark all as read
           </Button>
         )}
