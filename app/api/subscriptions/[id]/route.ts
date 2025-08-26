@@ -65,6 +65,10 @@ export async function PATCH(
       data: updateData,
       include: {
         beneficiary: true,
+        transfers: {
+          orderBy: { createdAt: "desc" },
+          take: 3,
+        },
       },
     });
 

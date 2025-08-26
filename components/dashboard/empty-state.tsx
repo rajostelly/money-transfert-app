@@ -1,4 +1,3 @@
-"use client";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,7 +15,7 @@ import {
 } from "lucide-react";
 
 interface EmptyStateProps {
-  icon: string;
+  icon: keyof typeof iconMap;
   title: string;
   description: string;
   actionLabel?: string;
@@ -46,7 +45,7 @@ export function EmptyState({
   actionHref,
   onAction,
 }: EmptyStateProps) {
-  const Icon = iconMap[icon as keyof typeof iconMap] || CreditCard;
+  const Icon = iconMap[icon] || CreditCard;
 
   return (
     <Card className="shadow-sm">
