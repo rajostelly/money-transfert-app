@@ -1,25 +1,27 @@
-import { type NextRequest, NextResponse } from "next/server"
-import { getServerSession } from "next-auth/next"
-import { authOptions } from "@/lib/auth"
-import { prisma } from "@/lib/prisma"
+import { type NextRequest, NextResponse } from "next/server";
+import { getCurrentUser } from "@/lib/auth-utils";
+import { prisma } from "@/lib/prisma";
 
 export async function GET(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions)
-    if (!session?.user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+    const user = await getCurrentUser();
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const count = await prisma.notification.count({
       where: {
-        userId: session.user.id,
+        userId: user.id,
         isRead: false,
       },
-    })
+    });
 
-    return NextResponse.json({ count })
+    return NextResponse.json({ count });
   } catch (error) {
-    console.error("Unread count fetch error:", error)
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
+    console.error("Unread count fetch error:", error);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
 }

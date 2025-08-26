@@ -1,13 +1,13 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
+import { requireRole } from "@/lib/auth-utils";
 import { prisma } from "@/lib/prisma";
 import { format } from "date-fns";
 
 export async function GET(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user || session.user.role !== "ADMIN") {
+    // Require ADMIN role to access this endpoint
+    const user = await requireRole(["ADMIN"]);
+    if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 

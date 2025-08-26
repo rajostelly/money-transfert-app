@@ -1,28 +1,30 @@
-import { type NextRequest, NextResponse } from "next/server"
-import { getServerSession } from "next-auth/next"
-import { authOptions } from "@/lib/auth"
-import { prisma } from "@/lib/prisma"
+import { type NextRequest, NextResponse } from "next/server";
+import { getCurrentUser } from "@/lib/auth-utils";
+import { prisma } from "@/lib/prisma";
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions)
-    if (!session?.user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+    const user = await getCurrentUser();
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     await prisma.notification.updateMany({
       where: {
-        userId: session.user.id,
+        userId: user.id,
         isRead: false,
       },
       data: {
         isRead: true,
       },
-    })
+    });
 
-    return NextResponse.json({ message: "All notifications marked as read" })
+    return NextResponse.json({ message: "All notifications marked as read" });
   } catch (error) {
-    console.error("Mark all read error:", error)
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
+    console.error("Mark all read error:", error);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
 }
