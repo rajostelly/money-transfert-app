@@ -42,26 +42,45 @@ export function TransferForm({ beneficiaries }: TransferFormProps) {
   const [exchangeRate, setExchangeRate] = useState<ExchangeRate | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingRate, setIsLoadingRate] = useState(false);
+  const [rateError, setRateError] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
 
+  // Function to fetch exchange rate
+  const fetchExchangeRate = async () => {
+    setIsLoadingRate(true);
+    setRateError("");
+    try {
+      const response = await fetch("/api/exchange-rate");
+      if (response.ok) {
+        const rate = await response.json();
+        setExchangeRate(rate);
+      } else {
+        const errorData = await response.json();
+        setRateError(errorData.error || "Failed to load exchange rate");
+        // Set a fallback rate if none exists
+        setExchangeRate({
+          rate: 3200,
+          fromCurrency: "CAD",
+          toCurrency: "MGA",
+        });
+      }
+    } catch (error) {
+      console.error("Failed to fetch exchange rate:", error);
+      setRateError("Network error - using fallback rate");
+      // Set a fallback rate
+      setExchangeRate({
+        rate: 3200,
+        fromCurrency: "CAD",
+        toCurrency: "MGA",
+      });
+    } finally {
+      setIsLoadingRate(false);
+    }
+  };
+
   // Fetch current exchange rate
   useEffect(() => {
-    const fetchExchangeRate = async () => {
-      setIsLoadingRate(true);
-      try {
-        const response = await fetch("/api/exchange-rate");
-        if (response.ok) {
-          const rate = await response.json();
-          setExchangeRate(rate);
-        }
-      } catch (error) {
-        console.error("Failed to fetch exchange rate:", error);
-      } finally {
-        setIsLoadingRate(false);
-      }
-    };
-
     fetchExchangeRate();
   }, []);
 
@@ -184,11 +203,29 @@ export function TransferForm({ beneficiaries }: TransferFormProps) {
             {/* Exchange Rate Info */}
             <Card className="bg-blue-50 border-blue-200">
               <CardContent className="pt-6">
-                <div className="flex items-center space-x-2 mb-3">
-                  <TrendingUp className="h-4 w-4 text-blue-600" />
-                  <span className="text-sm font-medium text-blue-900">
-                    Current Exchange Rate
-                  </span>
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center space-x-2">
+                    <TrendingUp className="h-4 w-4 text-blue-600" />
+                    <span className="text-sm font-medium text-blue-900">
+                      Current Exchange Rate
+                    </span>
+                  </div>
+                  {exchangeRate && (
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={fetchExchangeRate}
+                      disabled={isLoadingRate}
+                      className="h-6 px-2 text-xs text-blue-600 hover:text-blue-700"
+                    >
+                      {isLoadingRate ? (
+                        <Loader2 className="h-3 w-3 animate-spin" />
+                      ) : (
+                        "Refresh"
+                      )}
+                    </Button>
+                  )}
                 </div>
                 {isLoadingRate ? (
                   <div className="flex items-center space-x-2">
@@ -202,14 +239,38 @@ export function TransferForm({ beneficiaries }: TransferFormProps) {
                     <p className="text-lg font-semibold text-blue-900">
                       1 CAD = {exchangeRate.rate.toLocaleString()} MGA
                     </p>
-                    <p className="text-xs text-blue-700">
-                      Rate updated in real-time
-                    </p>
+                    {rateError ? (
+                      <p className="text-xs text-amber-600">
+                        {rateError} - Using fallback rate
+                      </p>
+                    ) : (
+                      <p className="text-xs text-blue-700">
+                        Rate updated in real-time
+                      </p>
+                    )}
                   </div>
                 ) : (
-                  <p className="text-sm text-red-600">
-                    Unable to load exchange rate
-                  </p>
+                  <div className="space-y-2">
+                    <p className="text-sm text-red-600">
+                      Unable to load exchange rate
+                    </p>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={fetchExchangeRate}
+                      disabled={isLoadingRate}
+                    >
+                      {isLoadingRate ? (
+                        <>
+                          <Loader2 className="mr-2 h-3 w-3 animate-spin" />
+                          Retrying...
+                        </>
+                      ) : (
+                        "Retry"
+                      )}
+                    </Button>
+                  </div>
                 )}
               </CardContent>
             </Card>

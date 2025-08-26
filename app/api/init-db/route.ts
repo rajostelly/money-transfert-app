@@ -55,9 +55,46 @@ export async function POST() {
 
     console.log("[v0] Test users inserted successfully");
 
+    // Initialize exchange rate if it doesn't exist
+    const existingRate = await prisma.exchangeRate.findFirst();
+    if (!existingRate) {
+      await prisma.exchangeRate.create({
+        data: {
+          fromCurrency: "CAD",
+          toCurrency: "MGA",
+          rate: 3200.0,
+        },
+      });
+      console.log("[v0] Exchange rate initialized successfully");
+    } else {
+      console.log("[v0] Exchange rate already exists");
+    }
+
+    // Initialize system settings if they don't exist
+    const systemSettings = [
+      { key: "TRANSFER_FEE_PERCENTAGE", value: "2.5" },
+      { key: "NOTIFICATION_DAYS_BEFORE", value: "3" },
+      { key: "MIN_TRANSFER_AMOUNT", value: "10.00" },
+      { key: "MAX_TRANSFER_AMOUNT", value: "5000.00" },
+    ];
+
+    for (const setting of systemSettings) {
+      await prisma.systemSettings.upsert({
+        where: { key: setting.key },
+        update: { value: setting.value },
+        create: {
+          key: setting.key,
+          value: setting.value,
+        },
+      });
+    }
+
+    console.log("[v0] System settings initialized successfully");
+
     return Response.json({
       success: true,
-      message: "Database initialized successfully with test users",
+      message:
+        "Database initialized successfully with test users, exchange rates, and system settings",
     });
   } catch (error) {
     console.error("[v0] Database initialization error:", error);

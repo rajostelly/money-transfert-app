@@ -7,6 +7,7 @@ export interface User {
   first_name: string;
   last_name: string;
   role: string;
+  stripeCustomerId?: string;
 }
 
 export interface Session {
@@ -15,6 +16,7 @@ export interface Session {
     email: string;
     name: string;
     role: string;
+    stripeCustomerId?: string;
   };
 }
 
@@ -25,6 +27,7 @@ export function createToken(user: User): string {
     email: user.email,
     name: `${user.first_name} ${user.last_name}`,
     role: user.role,
+    stripeCustomerId: user.stripeCustomerId,
     exp: Date.now() + 7 * 24 * 60 * 60 * 1000, // 7 days
   };
   return btoa(JSON.stringify(payload));
@@ -42,6 +45,7 @@ export function verifyToken(token: string): Session | null {
         email: payload.email,
         name: payload.name,
         role: payload.role,
+        stripeCustomerId: payload.stripeCustomerId,
       },
     };
   } catch {
@@ -83,6 +87,7 @@ export async function authenticateUser(
       first_name: user.name.split(" ")[0] || "User",
       last_name: user.name.split(" ").slice(1).join(" ") || "",
       role: user.role,
+      stripeCustomerId: user.stripeCustomerId || undefined,
     };
   } catch (error) {
     console.error("Auth error:", error);
