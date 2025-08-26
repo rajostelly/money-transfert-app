@@ -27,12 +27,11 @@ export async function createUser(data: {
     const user = await prisma.user.create({
       data: {
         email: data.email,
-        firstName: data.firstName,
-        lastName: data.lastName,
+        name: `${data.firstName} ${data.lastName}`,
         password: data.password,
         phone: data.phone,
         role: (data.role as any) || "CLIENT",
-        status: "ACTIVE",
+        status: "ACTIVE" as any,
       },
     });
     return user;

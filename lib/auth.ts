@@ -80,8 +80,8 @@ export async function authenticateUser(
     return {
       id: user.id,
       email: user.email,
-      first_name: user.firstName,
-      last_name: user.lastName,
+      first_name: user.name.split(" ")[0] || "User",
+      last_name: user.name.split(" ").slice(1).join(" ") || "",
       role: user.role,
     };
   } catch (error) {
