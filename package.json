@@ -6,12 +6,17 @@
     "build": "next build",
     "dev": "next dev",
     "lint": "next lint",
-    "start": "next start"
+    "start": "next start",
+    "db:migrate": "prisma migrate dev",
+    "db:generate": "prisma generate",
+    "db:reset": "prisma migrate reset",
+    "db:studio": "prisma studio",
+    "db:seed": "prisma db seed",
+    "db:test": "node scripts/test-db-connection.js"
   },
   "dependencies": {
     "@auth/core": "latest",
     "@hookform/resolvers": "^3.10.0",
-    "@neondatabase/serverless": "latest",
     "@prisma/client": "latest",
     "@radix-ui/react-accordion": "latest",
     "@radix-ui/react-alert-dialog": "latest",
