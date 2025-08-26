@@ -55,7 +55,7 @@ export async function POST(
           const invoice = invoices.data[0];
 
           // Attempt to pay the invoice
-          if (invoice.status === "open") {
+          if (invoice.status === "open" && invoice.id) {
             await stripe.invoices.pay(invoice.id);
           }
         }

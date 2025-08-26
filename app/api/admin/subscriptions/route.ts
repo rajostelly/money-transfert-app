@@ -12,35 +12,57 @@ export async function GET(request: NextRequest) {
     }
 
     const { searchParams } = new URL(request.url);
-    const status = searchParams.get("status") || "ACTIVE";
+    const statusParam = searchParams.get("status") || "ACTIVE";
+    const status = statusParam as any; // Type assertion for Prisma enum
     const format_type = searchParams.get("format") || "json";
 
     const subscriptions = await prisma.subscription.findMany({
       where: { status },
       include: {
-        user: true,
-        beneficiary: true,
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
+        beneficiary: {
+          select: {
+            id: true,
+            name: true,
+            city: true,
+            country: true,
+          },
+        },
         transfers: {
           orderBy: { createdAt: "desc" },
           take: 5,
+          select: {
+            id: true,
+            status: true,
+            amountCAD: true,
+            createdAt: true,
+          },
         },
       },
       orderBy: { createdAt: "desc" },
     });
 
-    const subscriptionsData = subscriptions.map((sub) => {
+    const subscriptionsData = subscriptions.map((sub: any) => {
       const totalTransfers = sub.transfers.length;
       const lastTransfer = sub.transfers[0];
       const totalAmountTransferred = sub.transfers
-        .filter((t) => t.status === "COMPLETED")
-        .reduce((sum, t) => sum + Number(t.amountCAD), 0);
+        .filter((t: any) => t.status === "COMPLETED")
+        .reduce((sum: number, t: any) => sum + Number(t.amountCAD), 0);
 
       return {
         id: sub.id,
         user: sub.user.name,
         userEmail: sub.user.email,
-        beneficiary: sub.beneficiary.name,
-        beneficiaryLocation: `${sub.beneficiary.city}, ${sub.beneficiary.country}`,
+        beneficiary: sub.beneficiary?.name || "Unknown",
+        beneficiaryLocation: `${sub.beneficiary?.city || "Unknown"}, ${
+          sub.beneficiary?.country || "Unknown"
+        }`,
         amountCAD: Number(sub.amountCAD),
         frequency: sub.frequency,
         status: sub.status,

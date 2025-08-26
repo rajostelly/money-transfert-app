@@ -1,5 +1,5 @@
-import './server-only';
-import { prisma } from './prisma';
+import "./server-only";
+import { prisma } from "./prisma";
 
 export interface AuditLogEntry {
   id?: string;

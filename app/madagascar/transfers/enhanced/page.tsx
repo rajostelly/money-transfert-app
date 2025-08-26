@@ -2,6 +2,28 @@ import { requireRole } from "@/lib/auth-utils";
 import { prisma } from "@/lib/prisma";
 import { MadagascarTransfersClient } from "@/components/madagascar/madagascar-transfers-client";
 
+type TransferWithRelations = {
+  id: string;
+  amountCAD: number;
+  amountMGA: number;
+  exchangeRate: number;
+  status: string;
+  createdAt: string;
+  confirmedAt?: string;
+  user: {
+    id: string;
+    email: string | null;
+    firstName: string | null;
+    lastName: string | null;
+  };
+  beneficiary: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
+  };
+};
+
 interface SearchParams {
   dateFrom?: string;
   dateTo?: string;
@@ -83,7 +105,7 @@ async function getFilteredTransfers(searchParams: SearchParams) {
     ];
   }
 
-  return await prisma.transfer.findMany({
+  const rawTransfers = await prisma.transfer.findMany({
     where,
     include: {
       user: true,
@@ -94,14 +116,45 @@ async function getFilteredTransfers(searchParams: SearchParams) {
       { createdAt: "desc" },
     ],
   });
+
+  // Transform Decimal types to numbers for client component
+  return rawTransfers.map((transfer) => ({
+    ...transfer,
+    amountCAD: Number(transfer.amountCAD),
+    amountMGA: Number(transfer.amountMGA),
+    exchangeRate: Number(transfer.exchangeRate),
+    createdAt: transfer.createdAt.toISOString(),
+    confirmedAt: transfer.confirmedAt?.toISOString(),
+    mobileMoneyTransactionId: transfer.mobileMoneyTransactionId || undefined,
+    mobileMoneyError: transfer.mobileMoneyError || undefined,
+    user: {
+      id: transfer.user.id,
+      name: transfer.user.name || transfer.user.email || "Unknown",
+      email: transfer.user.email || "",
+    },
+    beneficiary: {
+      id: transfer.beneficiary.id,
+      name: transfer.beneficiary.name,
+      phone: transfer.beneficiary.phone,
+      city: transfer.beneficiary.city,
+      country: transfer.beneficiary.country,
+      address: transfer.beneficiary.address || undefined,
+      operator: transfer.beneficiary.operator || undefined,
+    },
+  }));
 }
 
 async function getBeneficiaries() {
-  return await prisma.beneficiary.findMany({
+  const rawBeneficiaries = await prisma.beneficiary.findMany({
     where: { isActive: true },
     select: { id: true, name: true, operator: true },
     orderBy: { name: "asc" },
   });
+
+  return rawBeneficiaries.map((b) => ({
+    ...b,
+    operator: b.operator || undefined,
+  }));
 }
 
 async function getOperators() {

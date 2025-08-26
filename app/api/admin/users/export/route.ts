@@ -54,9 +54,6 @@ export async function GET(request: NextRequest) {
         status: user.status,
         emailVerified: user.emailVerified ? "Yes" : "No",
         createdAt: format(new Date(user.createdAt), "yyyy-MM-dd HH:mm:ss"),
-        lastLogin: user.lastLogin
-          ? format(new Date(user.lastLogin), "yyyy-MM-dd HH:mm:ss")
-          : "Never",
         totalTransfers: user.transfers.length,
         activeSubscriptions: user.subscriptions.length,
         activeBeneficiaries: user.beneficiaries.length,
@@ -79,7 +76,6 @@ export async function GET(request: NextRequest) {
           "Status",
           "Email Verified",
           "Created Date",
-          "Last Login",
           "Total Transfers",
           "Active Subscriptions",
           "Active Beneficiaries",
@@ -95,7 +91,6 @@ export async function GET(request: NextRequest) {
             user.status,
             user.emailVerified,
             user.createdAt,
-            user.lastLogin,
             user.totalTransfers,
             user.activeSubscriptions,
             user.activeBeneficiaries,
