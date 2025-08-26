@@ -32,7 +32,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Search, MoreHorizontal, UserCheck, UserX, Eye } from "lucide-react";
+import {
+  Search,
+  MoreHorizontal,
+  UserCheck,
+  UserX,
+  Eye,
+  Download,
+} from "lucide-react";
 import { format } from "date-fns";
 import type { User, Transfer } from "@prisma/client";
 
@@ -93,13 +100,28 @@ export function UserManagementTable({
     }
   };
 
+  const exportToCSV = () => {
+    let url = `/api/admin/users/export?format=csv`;
+    if (statusFilter !== "all") url += `&status=${statusFilter}`;
+    if (roleFilter !== "all") url += `&role=${roleFilter}`;
+    window.open(url, "_blank");
+  };
+
   return (
     <Card className="shadow-sm">
       <CardHeader>
-        <CardTitle className="text-xl">User Management</CardTitle>
-        <CardDescription>
-          Manage all users and their access levels
-        </CardDescription>
+        <div className="flex items-center justify-between">
+          <div>
+            <CardTitle className="text-xl">User Management</CardTitle>
+            <CardDescription>
+              Manage all users and their access levels
+            </CardDescription>
+          </div>
+          <Button onClick={exportToCSV} variant="outline" size="sm">
+            <Download className="mr-2 h-4 w-4" />
+            Export CSV
+          </Button>
+        </div>
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Filters */}

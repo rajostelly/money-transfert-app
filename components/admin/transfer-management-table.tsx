@@ -32,7 +32,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Search, MoreHorizontal, Eye, Download } from "lucide-react";
+import { Search, MoreHorizontal, Eye, Download, RefreshCw } from "lucide-react";
 import { format } from "date-fns";
 import type { Transfer, User, Beneficiary } from "@prisma/client";
 
@@ -115,6 +115,24 @@ export function TransferManagementTable({
     a.download = `transfers-${format(new Date(), "yyyy-MM-dd")}.csv`;
     a.click();
     window.URL.revokeObjectURL(url);
+  };
+
+  const retryTransfer = async (transferId: string) => {
+    try {
+      const response = await fetch(`/api/admin/transfers/${transferId}/retry`, {
+        method: "POST",
+      });
+
+      if (response.ok) {
+        // Refresh the page to show updated status
+        window.location.reload();
+      } else {
+        const data = await response.json();
+        alert(`Failed to retry transfer: ${data.error}`);
+      }
+    } catch (error) {
+      alert("An error occurred while retrying the transfer");
+    }
   };
 
   return (
@@ -243,6 +261,14 @@ export function TransferManagementTable({
                           <Eye className="mr-2 h-4 w-4" />
                           View Details
                         </DropdownMenuItem>
+                        {transfer.status === "FAILED" && (
+                          <DropdownMenuItem
+                            onClick={() => retryTransfer(transfer.id)}
+                          >
+                            <RefreshCw className="mr-2 h-4 w-4" />
+                            Retry Transfer
+                          </DropdownMenuItem>
+                        )}
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>

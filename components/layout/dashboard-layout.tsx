@@ -25,6 +25,7 @@ import {
   X,
   DollarSign,
   BarChart3,
+  FileText,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -52,6 +53,8 @@ const adminNavItems = [
   { href: "/admin", icon: BarChart3, label: "Overview" },
   { href: "/admin/users", icon: Users, label: "Users" },
   { href: "/admin/transfers", icon: Send, label: "All Transfers" },
+  { href: "/admin/subscriptions", icon: CreditCard, label: "Subscriptions" },
+  { href: "/admin/reports", icon: FileText, label: "Reports" },
   { href: "/admin/settings", icon: Settings, label: "Settings" },
 ];
 
