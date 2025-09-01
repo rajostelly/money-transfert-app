@@ -25,8 +25,6 @@ import {
   Eye,
   EyeOff,
   Chrome,
-  Facebook,
-  Github,
   ArrowRight,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -182,13 +180,13 @@ export function AuthForm({ defaultTab = "signin" }: AuthFormProps) {
         </motion.div>
       </CardHeader>
 
-      <CardContent className="space-y-6">
+      <CardContent className="space-y-4">
         <Tabs
           value={activeTab}
           onValueChange={(value) => setActiveTab(value as "signin" | "signup")}
           className="w-full"
         >
-          <TabsList className="grid w-full grid-cols-2 mb-6 bg-muted/50">
+          <TabsList className="grid w-full grid-cols-2 mb-4 bg-muted/50">
             <TabsTrigger
               value="signin"
               className="data-[state=active]:bg-background data-[state=active]:text-foreground transition-all duration-300"
@@ -204,7 +202,7 @@ export function AuthForm({ defaultTab = "signin" }: AuthFormProps) {
           </TabsList>
 
           {/* Social Authentication Buttons */}
-          <div className="space-y-3 mb-6">
+          <div className="mb-4">
             <motion.div
               variants={buttonVariants}
               whileHover="hover"
@@ -219,39 +217,10 @@ export function AuthForm({ defaultTab = "signin" }: AuthFormProps) {
                 Continue with Google
               </Button>
             </motion.div>
-
-            <div className="grid grid-cols-2 gap-3">
-              <motion.div
-                variants={buttonVariants}
-                whileHover="hover"
-                whileTap="tap"
-              >
-                <Button
-                  variant="outline"
-                  className="h-11 border-2 hover:border-blue-200 dark:hover:border-blue-800 transition-all duration-300"
-                  onClick={() => handleSocialAuth("Facebook")}
-                >
-                  <Facebook className="h-4 w-4 text-blue-600" />
-                </Button>
-              </motion.div>
-              <motion.div
-                variants={buttonVariants}
-                whileHover="hover"
-                whileTap="tap"
-              >
-                <Button
-                  variant="outline"
-                  className="h-11 border-2 hover:border-gray-200 dark:hover:border-gray-800 transition-all duration-300"
-                  onClick={() => handleSocialAuth("GitHub")}
-                >
-                  <Github className="h-4 w-4 text-gray-700 dark:text-gray-300" />
-                </Button>
-              </motion.div>
-            </div>
           </div>
 
           <div className="relative">
-            <Separator className="my-6" />
+            <Separator className="my-4" />
             <div className="absolute inset-0 flex items-center justify-center">
               <span className="bg-background px-4 text-xs text-muted-foreground uppercase tracking-wider">
                 Or continue with email
@@ -260,7 +229,7 @@ export function AuthForm({ defaultTab = "signin" }: AuthFormProps) {
           </div>
 
           <AnimatePresence mode="wait">
-            <TabsContent key="signin" value="signin" className="space-y-4 mt-6">
+            <TabsContent key="signin" value="signin" className="space-y-4 mt-4">
               <motion.form
                 key="signin-form"
                 initial={{ opacity: 0, x: -20 }}
@@ -379,7 +348,7 @@ export function AuthForm({ defaultTab = "signin" }: AuthFormProps) {
               </motion.form>
             </TabsContent>
 
-            <TabsContent key="signup" value="signup" className="space-y-4 mt-6">
+            <TabsContent key="signup" value="signup" className="space-y-4 mt-4">
               <motion.form
                 key="signup-form"
                 initial={{ opacity: 0, x: 20 }}
