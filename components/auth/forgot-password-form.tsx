@@ -31,6 +31,16 @@ export function ForgotPasswordForm() {
   const [message, setMessage] = useState("");
   const router = useRouter();
 
+  // Validation function
+  const isValidEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const isFormValid = () => {
+    return email.trim() !== "" && isValidEmail(email);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -220,8 +230,12 @@ export function ForgotPasswordForm() {
           >
             <Button
               type="submit"
-              className="w-full h-12 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white font-medium transition-all duration-300"
-              disabled={isLoading}
+              className={`w-full h-12 font-medium transition-all duration-300 ${
+                isFormValid() && !isLoading
+                  ? "bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 dark:from-emerald-500 dark:to-emerald-600 dark:hover:from-emerald-600 dark:hover:to-emerald-700 text-white"
+                  : "bg-gradient-to-r from-emerald-600 to-emerald-700 dark:from-emerald-500 dark:to-emerald-600 text-white opacity-50 cursor-not-allowed"
+              }`}
+              disabled={isLoading || !isFormValid()}
             >
               {isLoading ? (
                 <>

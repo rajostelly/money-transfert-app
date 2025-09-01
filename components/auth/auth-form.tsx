@@ -59,6 +59,34 @@ export function AuthForm({ defaultTab = "signin" }: AuthFormProps) {
     phone: "",
   });
 
+  // Validation functions
+  const isValidEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const isSigninValid = () => {
+    return (
+      signinData.email.trim() !== "" &&
+      isValidEmail(signinData.email) &&
+      signinData.password.trim() !== "" &&
+      signinData.password.length >= 6
+    );
+  };
+
+  const isSignupValid = () => {
+    return (
+      signupData.name.trim() !== "" &&
+      signupData.name.length >= 2 &&
+      signupData.email.trim() !== "" &&
+      isValidEmail(signupData.email) &&
+      signupData.password.trim() !== "" &&
+      signupData.password.length >= 8 &&
+      signupData.confirmPassword.trim() !== "" &&
+      signupData.password === signupData.confirmPassword
+    );
+  };
+
   const handleSigninSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -329,8 +357,12 @@ export function AuthForm({ defaultTab = "signin" }: AuthFormProps) {
                 >
                   <Button
                     type="submit"
-                    className="w-full h-12 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 dark:from-emerald-500 dark:to-emerald-600 dark:hover:from-emerald-600 dark:hover:to-emerald-700 text-white font-medium transition-all duration-300"
-                    disabled={isLoading}
+                    className={`w-full h-12 font-medium transition-all duration-300 ${
+                      isSigninValid() && !isLoading
+                        ? "bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 dark:from-emerald-500 dark:to-emerald-600 dark:hover:from-emerald-600 dark:hover:to-emerald-700 text-white"
+                        : "bg-gradient-to-r from-emerald-600 to-emerald-700 dark:from-emerald-500 dark:to-emerald-600 text-white opacity-50 cursor-not-allowed"
+                    }`}
+                    disabled={isLoading || !isSigninValid()}
                   >
                     {isLoading ? (
                       <>
@@ -534,8 +566,12 @@ export function AuthForm({ defaultTab = "signin" }: AuthFormProps) {
                 >
                   <Button
                     type="submit"
-                    className="w-full h-12 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 dark:from-emerald-500 dark:to-emerald-600 dark:hover:from-emerald-600 dark:hover:to-emerald-700 text-white font-medium transition-all duration-300"
-                    disabled={isLoading}
+                    className={`w-full h-12 font-medium transition-all duration-300 ${
+                      isSignupValid() && !isLoading
+                        ? "bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 dark:from-emerald-500 dark:to-emerald-600 dark:hover:from-emerald-600 dark:hover:to-emerald-700 text-white"
+                        : "bg-gradient-to-r from-emerald-600 to-emerald-700 dark:from-emerald-500 dark:to-emerald-600 text-white opacity-50 cursor-not-allowed"
+                    }`}
+                    disabled={isLoading || !isSignupValid()}
                   >
                     {isLoading ? (
                       <>

@@ -30,6 +30,25 @@ export function RegisterForm() {
   const [success, setSuccess] = useState("");
   const router = useRouter();
 
+  // Validation function
+  const isValidEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const isFormValid = () => {
+    return (
+      formData.name.trim() !== "" &&
+      formData.name.length >= 2 &&
+      formData.email.trim() !== "" &&
+      isValidEmail(formData.email) &&
+      formData.password.trim() !== "" &&
+      formData.password.length >= 8 &&
+      formData.confirmPassword.trim() !== "" &&
+      formData.password === formData.confirmPassword
+    );
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({
       ...prev,
@@ -200,8 +219,12 @@ export function RegisterForm() {
 
           <Button
             type="submit"
-            className="w-full h-12 bg-emerald-600 hover:bg-emerald-700 text-white font-medium"
-            disabled={isLoading}
+            className={`w-full h-12 font-medium transition-all duration-300 ${
+              isFormValid() && !isLoading
+                ? "bg-emerald-600 hover:bg-emerald-700 text-white"
+                : "bg-emerald-600 text-white opacity-50 cursor-not-allowed"
+            }`}
+            disabled={isLoading || !isFormValid()}
           >
             {isLoading ? (
               <>
