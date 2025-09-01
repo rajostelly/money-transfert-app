@@ -29,6 +29,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 interface AuthFormProps {
   defaultTab?: "signin" | "signup";
@@ -310,16 +311,15 @@ export function AuthForm({ defaultTab = "signin" }: AuthFormProps) {
                 </div>
 
                 <div className="flex items-center justify-between text-sm">
-                  <Button
-                    type="button"
-                    variant="link"
-                    className="p-0 h-auto text-emerald-600 hover:text-emerald-700"
-                    onClick={() => {
-                      /* Add forgot password logic */
-                    }}
-                  >
-                    Forgot your password?
-                  </Button>
+                  <Link href="/auth/forgot-password">
+                    <Button
+                      type="button"
+                      variant="link"
+                      className="p-0 h-auto text-emerald-600 hover:text-emerald-700"
+                    >
+                      Forgot your password?
+                    </Button>
+                  </Link>
                 </div>
 
                 <motion.div
