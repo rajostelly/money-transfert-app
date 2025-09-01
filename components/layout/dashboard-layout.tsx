@@ -120,10 +120,10 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           <Button
             variant="ghost"
             size="sm"
-            className="lg:hidden h-7 w-7 p-0"
+            className="lg:hidden h-7 w-7 p-0 hover:bg-muted/50 transition-colors"
             onClick={() => setSidebarOpen(false)}
           >
-            <X className="h-3.5 w-3.5" />
+            <X className="h-3 w-3" />
           </Button>
         </div>
 
@@ -158,23 +158,23 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
             <Button
               variant="ghost"
               size="sm"
-              className="lg:hidden h-8 w-8 p-0"
+              className="lg:hidden h-7 w-7 p-0 hover:bg-muted/50 transition-colors"
               onClick={() => setSidebarOpen(true)}
             >
-              <Menu className="h-3.5 w-3.5" />
+              <Menu className="h-3 w-3" />
             </Button>
 
-            <div className="flex items-center space-x-2 ml-auto">
+            <div className="flex items-center space-x-4 ml-auto">
               <ThemeToggle />
               <NotificationBell />
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className="relative h-7 w-7 rounded-full p-0"
+                    className="relative h-7 w-7 rounded-full p-0 hover:bg-muted/50 transition-colors"
                   >
-                    <Avatar className="h-7 w-7">
-                      <AvatarFallback className="bg-emerald-100 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 text-xs">
+                    <Avatar className="h-6 w-6">
+                      <AvatarFallback className="bg-emerald-100 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 text-[10px]">
                         {session?.user?.name?.charAt(0)?.toUpperCase() || "U"}
                       </AvatarFallback>
                     </Avatar>
