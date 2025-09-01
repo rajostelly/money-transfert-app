@@ -2,7 +2,6 @@
 
 import type React from "react";
 import { createContext, useContext, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 
 interface User {
   id: string;
@@ -28,7 +27,6 @@ export function AuthSessionProvider({
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [isSigningOut, setIsSigningOut] = useState(false);
-  const router = useRouter();
 
   useEffect(() => {
     // Check if user is logged in on mount
@@ -49,31 +47,26 @@ export function AuthSessionProvider({
     if (isSigningOut) return; // Prevent multiple simultaneous logout requests
 
     setIsSigningOut(true);
+
+    // Clear user state immediately to update UI
+    setUser(null);
+
     try {
-      // Call logout API
-      const response = await fetch("/api/auth/logout", {
+      // Call logout API to clear server-side session
+      await fetch("/api/auth/logout", {
         method: "POST",
         credentials: "include", // Ensure cookies are sent
       });
-
-      if (response.ok) {
-        // Clear user state immediately
-        setUser(null);
-        // Small delay to ensure state is updated
-        await new Promise((resolve) => setTimeout(resolve, 100));
-        // Use Next.js router for navigation
-        router.push("/auth/login");
-      } else {
-        throw new Error("Logout failed");
-      }
     } catch (error) {
-      console.error("Logout error:", error);
-      // Clear user state anyway and redirect
-      setUser(null);
-      // Force page reload to clear any cached state
-      window.location.href = "/auth/login";
+      console.error("Logout API error:", error);
+      // Continue with logout even if API fails
     }
-    // Note: Don't set isSigningOut to false here since we're redirecting
+
+    // Always redirect after logout attempt
+    // Use setTimeout to ensure state updates are processed
+    setTimeout(() => {
+      window.location.href = "/auth/login";
+    }, 50);
   };
 
   return (

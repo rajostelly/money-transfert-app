@@ -1,9 +1,8 @@
 "use client";
 
 import type React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useSession, useAuth } from "@/components/providers/session-provider";
-import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
@@ -70,14 +69,6 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   const { data: session, status } = useSession();
   const { signOut, isSigningOut } = useAuth();
   const pathname = usePathname();
-  const router = useRouter();
-
-  // Redirect to login if not authenticated
-  useEffect(() => {
-    if (status !== "loading" && status === "unauthenticated") {
-      router.push("/auth/login");
-    }
-  }, [status, router]);
 
   // Show loading while checking authentication
   if (status === "loading") {
@@ -89,11 +80,6 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         </div>
       </div>
     );
-  }
-
-  // Don't render dashboard if not authenticated
-  if (status === "unauthenticated") {
-    return null;
   }
 
   const getNavItems = () => {
