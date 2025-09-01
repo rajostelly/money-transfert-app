@@ -104,28 +104,30 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
-        <div className="flex items-center justify-between h-14 px-4 border-b border-border">
+        <div className="flex items-center justify-between h-12 px-4 border-b border-border">
           <div className="flex items-center space-x-2">
             <div className="flex-shrink-0">
               <img
                 src="/placeholder-logo.svg"
                 alt="TransferApp Logo"
-                className="h-6 w-6"
+                className="h-5 w-5"
               />
             </div>
-            <h1 className="text-lg font-bold text-emerald-600">TransferApp</h1>
+            <h1 className="text-base font-bold text-emerald-600">
+              TransferApp
+            </h1>
           </div>
           <Button
             variant="ghost"
             size="sm"
-            className="lg:hidden"
+            className="lg:hidden h-7 w-7 p-0"
             onClick={() => setSidebarOpen(false)}
           >
-            <X className="h-4 w-4" />
+            <X className="h-3.5 w-3.5" />
           </Button>
         </div>
 
-        <nav className="mt-4 px-3 space-y-1 overflow-y-auto h-[calc(100vh-3.5rem)]">
+        <nav className="mt-4 px-3 space-y-1 overflow-y-auto h-[calc(100vh-3rem)]">
           {navItems.map((item) => {
             const isActive = pathname === item.href;
             return (
@@ -133,7 +135,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "flex items-center px-2 py-2 text-xs font-medium rounded-lg transition-colors",
+                  "flex items-center px-2 py-1.5 text-xs font-medium rounded-lg transition-colors",
                   isActive
                     ? "bg-emerald-100 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 border-r-2 border-emerald-600"
                     : "text-muted-foreground hover:bg-muted hover:text-foreground"
@@ -152,14 +154,14 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
       <div className="lg:pl-52 flex flex-col min-h-screen">
         {/* Top header */}
         <header className="sticky top-0 z-30 bg-card shadow-sm border-b border-border flex-shrink-0">
-          <div className="flex items-center justify-between h-14 px-4">
+          <div className="flex items-center justify-between h-12 px-4">
             <Button
               variant="ghost"
               size="sm"
-              className="lg:hidden"
+              className="lg:hidden h-8 w-8 p-0"
               onClick={() => setSidebarOpen(true)}
             >
-              <Menu className="h-4 w-4" />
+              <Menu className="h-3.5 w-3.5" />
             </Button>
 
             <div className="flex items-center space-x-2 ml-auto">
@@ -169,10 +171,10 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className="relative h-8 w-8 rounded-full"
+                    className="relative h-7 w-7 rounded-full p-0"
                   >
-                    <Avatar className="h-8 w-8">
-                      <AvatarFallback className="bg-emerald-100 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400">
+                    <Avatar className="h-7 w-7">
+                      <AvatarFallback className="bg-emerald-100 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 text-xs">
                         {session?.user?.name?.charAt(0)?.toUpperCase() || "U"}
                       </AvatarFallback>
                     </Avatar>
@@ -201,7 +203,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         </header>
 
         {/* Page content */}
-        <main className="flex-1 p-4 bg-background overflow-auto">
+        <main className="flex-1 p-3 bg-background overflow-auto">
           {children}
         </main>
       </div>

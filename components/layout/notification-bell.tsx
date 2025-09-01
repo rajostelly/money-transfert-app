@@ -34,12 +34,12 @@ export function NotificationBell() {
     <Button
       variant="ghost"
       size="sm"
-      className="relative"
+      className="relative h-8 w-8 p-0"
       onClick={() => router.push("/dashboard/notifications")}
     >
-      <Bell className="h-4 w-4" />
+      <Bell className="h-3.5 w-3.5" />
       {unreadCount > 0 && (
-        <Badge className="absolute -top-1 -right-1 h-4 w-4 p-0 bg-emerald-600 text-white text-xs">
+        <Badge className="absolute -top-1 -right-1 h-3.5 w-3.5 p-0 bg-emerald-600 text-white text-[10px] flex items-center justify-center">
           {unreadCount > 9 ? "9+" : unreadCount}
         </Badge>
       )}
