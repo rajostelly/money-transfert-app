@@ -1,15 +1,21 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Loader2, User, Mail, Lock, Phone } from "lucide-react"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Loader2, User, Mail, Lock, Phone } from "lucide-react";
 
 export function RegisterForm() {
   const [formData, setFormData] = useState({
@@ -18,29 +24,29 @@ export function RegisterForm() {
     password: "",
     confirmPassword: "",
     phone: "",
-  })
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState("")
-  const [success, setSuccess] = useState("")
-  const router = useRouter()
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
-    }))
-  }
+    }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
-    setError("")
-    setSuccess("")
+    e.preventDefault();
+    setIsLoading(true);
+    setError("");
+    setSuccess("");
 
     if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match")
-      setIsLoading(false)
-      return
+      setError("Passwords do not match");
+      setIsLoading(false);
+      return;
     }
 
     try {
@@ -55,29 +61,31 @@ export function RegisterForm() {
           password: formData.password,
           phone: formData.phone || undefined,
         }),
-      })
+      });
 
-      const data = await response.json()
+      const data = await response.json();
 
       if (!response.ok) {
-        setError(data.error || "Registration failed")
+        setError(data.error || "Registration failed");
       } else {
-        setSuccess("Account created successfully! You can now sign in.")
+        setSuccess("Account created successfully! You can now sign in.");
         setTimeout(() => {
-          router.push("/auth/login")
-        }, 2000)
+          router.push("/auth?tab=signin");
+        }, 2000);
       }
     } catch (error) {
-      setError("An error occurred. Please try again.")
+      setError("An error occurred. Please try again.");
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <Card className="w-full max-w-md mx-auto shadow-lg">
       <CardHeader className="space-y-2 text-center">
-        <CardTitle className="text-2xl font-bold text-foreground">Create Account</CardTitle>
+        <CardTitle className="text-2xl font-bold text-foreground">
+          Create Account
+        </CardTitle>
         <CardDescription className="text-muted-foreground">
           Join us to start sending money to Madagascar
         </CardDescription>
@@ -211,12 +219,12 @@ export function RegisterForm() {
           <Button
             variant="link"
             className="p-0 h-auto text-emerald-600 hover:text-emerald-700"
-            onClick={() => router.push("/auth/login")}
+            onClick={() => router.push("/auth?tab=signin")}
           >
             Sign in here
           </Button>
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
