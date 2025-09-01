@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { randomBytes } from "crypto";
-import { sendEmail } from "@/lib/email-service";
+import { emailService } from "@/lib/email-service";
 
 export async function POST(request: NextRequest) {
   try {
@@ -102,7 +102,7 @@ export async function POST(request: NextRequest) {
       </div>
     `;
 
-    await sendEmail({
+    await emailService.sendEmail({
       to: user.email,
       subject: "Reset Your TransferApp Password",
       html: emailContent,
