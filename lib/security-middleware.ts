@@ -86,6 +86,7 @@ export class SecurityMiddleware {
   static validateSecurityHeaders(request: NextRequest): NextResponse | null {
     const userAgent = request.headers.get("user-agent");
     const contentType = request.headers.get("content-type");
+    const { pathname } = request.nextUrl;
 
     // Block requests without user agent (likely bots)
     if (!userAgent || userAgent.length < 10) {
@@ -94,7 +95,21 @@ export class SecurityMiddleware {
 
     // Validate content type for POST/PUT requests
     if (["POST", "PUT", "PATCH"].includes(request.method)) {
-      if (!contentType || !contentType.includes("application/json")) {
+      // Exempt certain endpoints that don't require JSON
+      const exemptEndpoints = [
+        "/api/init-db",
+        "/api/auth/logout",
+        "/api/webhooks/stripe",
+      ];
+
+      const isExempt = exemptEndpoints.some((endpoint) =>
+        pathname.includes(endpoint)
+      );
+
+      if (
+        !isExempt &&
+        (!contentType || !contentType.includes("application/json"))
+      ) {
         return NextResponse.json(
           { error: "Invalid content type" },
           { status: 400 }

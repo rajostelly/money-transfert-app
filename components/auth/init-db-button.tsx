@@ -1,43 +1,54 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Database, CheckCircle, AlertCircle } from "lucide-react"
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Database, CheckCircle, AlertCircle } from "lucide-react";
 
 export function InitDbButton() {
-  const [isLoading, setIsLoading] = useState(false)
-  const [status, setStatus] = useState<"idle" | "success" | "error">("idle")
-  const [message, setMessage] = useState("")
+  const [isLoading, setIsLoading] = useState(false);
+  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const [message, setMessage] = useState("");
 
   const handleInitDb = async () => {
-    setIsLoading(true)
-    setStatus("idle")
+    setIsLoading(true);
+    setStatus("idle");
 
     try {
       const response = await fetch("/api/init-db", {
         method: "POST",
-      })
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}), // Send empty JSON object
+      });
 
-      const data = await response.json()
+      const data = await response.json();
 
       if (data.success) {
-        setStatus("success")
-        setMessage("Database initialized! You can now log in with test accounts.")
+        setStatus("success");
+        setMessage(
+          "Database initialized! You can now log in with test accounts."
+        );
       } else {
-        setStatus("error")
-        setMessage(data.error || "Failed to initialize database")
+        setStatus("error");
+        setMessage(data.error || "Failed to initialize database");
       }
     } catch (error) {
-      setStatus("error")
-      setMessage("Network error occurred")
+      setStatus("error");
+      setMessage("Network error occurred");
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <div className="space-y-3">
-      <Button onClick={handleInitDb} disabled={isLoading} variant="outline" className="w-full bg-transparent">
+      <Button
+        onClick={handleInitDb}
+        disabled={isLoading}
+        variant="outline"
+        className="w-full bg-transparent"
+      >
         <Database className="w-4 h-4 mr-2" />
         {isLoading ? "Initializing Database..." : "Initialize Database"}
       </Button>
@@ -67,5 +78,5 @@ export function InitDbButton() {
         </div>
       )}
     </div>
-  )
+  );
 }
