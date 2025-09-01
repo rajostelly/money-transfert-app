@@ -36,7 +36,7 @@ export class SecurityMiddleware {
     const identifier = `${endpointType}:${ip}`;
     const now = Date.now();
     const windowMs = 60 * 60 * 1000; // 1 hour
-    const maxRequests = endpointType === "auth" ? 5 : 100;
+    const maxRequests = endpointType === "auth" ? 50 : 100; // Increased from 5 to 50
 
     const current = this.requestCounts.get(identifier);
 

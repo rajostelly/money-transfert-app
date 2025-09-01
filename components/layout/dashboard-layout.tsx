@@ -67,7 +67,7 @@ const madagascarNavItems = [
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { data: session } = useSession();
-  const { signOut } = useAuth();
+  const { signOut, isSigningOut } = useAuth();
   const pathname = usePathname();
 
   const getNavItems = () => {
@@ -84,7 +84,9 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   const navItems = getNavItems();
 
   const handleSignOut = () => {
-    signOut();
+    if (!isSigningOut) {
+      signOut();
+    }
   };
 
   return (
@@ -192,9 +194,12 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                     </div>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={handleSignOut}>
+                  <DropdownMenuItem
+                    onClick={handleSignOut}
+                    disabled={isSigningOut}
+                  >
                     <LogOut className="mr-2 h-3 w-3" />
-                    <span>Log out</span>
+                    <span>{isSigningOut ? "Signing out..." : "Log out"}</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
