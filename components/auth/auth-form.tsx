@@ -164,7 +164,7 @@ export function AuthForm({ defaultTab = "signin" }: AuthFormProps) {
 
   return (
     <Card className="w-full max-w-md mx-auto shadow-2xl border border-border/50 bg-card/95 backdrop-blur-sm dark:shadow-xl dark:shadow-black/20">
-      <CardHeader className="space-y-3 text-center pb-6">
+      <CardHeader className="space-y-2 text-center pb-4">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -173,7 +173,7 @@ export function AuthForm({ defaultTab = "signin" }: AuthFormProps) {
           <CardTitle className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-emerald-700 dark:from-emerald-400 dark:to-emerald-500 bg-clip-text text-transparent">
             {activeTab === "signin" ? "Welcome Back!" : "Join TransferApp"}
           </CardTitle>
-          <CardDescription className="text-muted-foreground dark:text-gray-300 mt-2">
+          <CardDescription className="text-muted-foreground dark:text-gray-300 mt-1">
             {activeTab === "signin"
               ? "Continue your secure money transfer journey"
               : "Start sending money to Madagascar with confidence"}
@@ -181,13 +181,13 @@ export function AuthForm({ defaultTab = "signin" }: AuthFormProps) {
         </motion.div>
       </CardHeader>
 
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-2">
         <Tabs
           value={activeTab}
           onValueChange={(value) => setActiveTab(value as "signin" | "signup")}
           className="w-full"
         >
-          <TabsList className="grid w-full grid-cols-2 mb-4 bg-muted/70 dark:bg-muted/80 border border-border/30">
+          <TabsList className="grid w-full grid-cols-2 mb-2 bg-muted/70 dark:bg-muted/80 border border-border/30">
             <TabsTrigger
               value="signin"
               className="data-[state=active]:bg-background data-[state=active]:text-foreground transition-all duration-300"
@@ -203,7 +203,7 @@ export function AuthForm({ defaultTab = "signin" }: AuthFormProps) {
           </TabsList>
 
           {/* Social Authentication Buttons */}
-          <div className="mb-4">
+          <div className="mb-2">
             <motion.div
               variants={buttonVariants}
               whileHover="hover"
@@ -221,7 +221,7 @@ export function AuthForm({ defaultTab = "signin" }: AuthFormProps) {
           </div>
 
           <div className="relative">
-            <Separator className="my-4" />
+            <Separator className="my-2" />
             <div className="absolute inset-0 flex items-center justify-center">
               <span className="bg-background px-4 text-xs text-muted-foreground uppercase tracking-wider">
                 Or continue with email
@@ -230,7 +230,7 @@ export function AuthForm({ defaultTab = "signin" }: AuthFormProps) {
           </div>
 
           <AnimatePresence mode="wait">
-            <TabsContent key="signin" value="signin" className="space-y-4 mt-4">
+            <TabsContent key="signin" value="signin" className="space-y-3 mt-2">
               <motion.form
                 key="signin-form"
                 initial={{ opacity: 0, x: -20 }}
@@ -238,7 +238,7 @@ export function AuthForm({ defaultTab = "signin" }: AuthFormProps) {
                 exit={{ opacity: 0, x: 20 }}
                 transition={{ duration: 0.3 }}
                 onSubmit={handleSigninSubmit}
-                className="space-y-4"
+                className="space-y-3"
               >
                 <div className="space-y-2">
                   <Label htmlFor="signin-email" className="text-sm font-medium">
@@ -348,7 +348,7 @@ export function AuthForm({ defaultTab = "signin" }: AuthFormProps) {
               </motion.form>
             </TabsContent>
 
-            <TabsContent key="signup" value="signup" className="space-y-4 mt-4">
+            <TabsContent key="signup" value="signup" className="space-y-3 mt-2">
               <motion.form
                 key="signup-form"
                 initial={{ opacity: 0, x: 20 }}
@@ -356,7 +356,7 @@ export function AuthForm({ defaultTab = "signin" }: AuthFormProps) {
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ duration: 0.3 }}
                 onSubmit={handleSignupSubmit}
-                className="space-y-4"
+                className="space-y-3"
               >
                 <div className="space-y-2">
                   <Label htmlFor="signup-name" className="text-sm font-medium">
