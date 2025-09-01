@@ -121,6 +121,10 @@ export function TransferManagementTable({
     try {
       const response = await fetch(`/api/admin/transfers/${transferId}/retry`, {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
       });
 
       if (response.ok) {

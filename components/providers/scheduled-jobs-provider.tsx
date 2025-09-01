@@ -12,6 +12,10 @@ export function ScheduledJobsInitializer() {
     ) {
       fetch("/api/admin/start-scheduled-jobs", {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
       }).catch(console.error);
     }
   }, []);

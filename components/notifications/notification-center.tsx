@@ -62,6 +62,10 @@ export function NotificationCenter({
     try {
       const response = await fetch("/api/notifications/mark-all-read", {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
       });
 
       if (response.ok) {
