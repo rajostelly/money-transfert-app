@@ -105,7 +105,7 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
 
   if (status === "success") {
     return (
-      <Card className="w-full max-w-md mx-auto shadow-2xl border-0 bg-card/80 backdrop-blur-sm">
+      <Card className="w-full max-w-md mx-auto shadow-2xl border border-border/50 bg-card/95 backdrop-blur-sm dark:shadow-xl dark:shadow-black/20">
         <CardHeader className="space-y-3 text-center pb-6">
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
@@ -149,7 +149,7 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
   }
 
   return (
-    <Card className="w-full max-w-md mx-auto shadow-2xl border-0 bg-card/80 backdrop-blur-sm">
+    <Card className="w-full max-w-md mx-auto shadow-2xl border border-border/50 bg-card/95 backdrop-blur-sm dark:shadow-xl dark:shadow-black/20">
       <CardHeader className="space-y-3 text-center pb-6">
         <motion.div
           initial={{ opacity: 0, y: -20 }}

@@ -163,17 +163,17 @@ export function AuthForm({ defaultTab = "signin" }: AuthFormProps) {
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto shadow-2xl border-0 bg-card/80 backdrop-blur-sm">
+    <Card className="w-full max-w-md mx-auto shadow-2xl border border-border/50 bg-card/95 backdrop-blur-sm dark:shadow-xl dark:shadow-black/20">
       <CardHeader className="space-y-3 text-center pb-6">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <CardTitle className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-emerald-700 bg-clip-text text-transparent">
+          <CardTitle className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-emerald-700 dark:from-emerald-400 dark:to-emerald-500 bg-clip-text text-transparent">
             {activeTab === "signin" ? "Welcome Back!" : "Join TransferApp"}
           </CardTitle>
-          <CardDescription className="text-muted-foreground mt-2">
+          <CardDescription className="text-muted-foreground dark:text-gray-300 mt-2">
             {activeTab === "signin"
               ? "Continue your secure money transfer journey"
               : "Start sending money to Madagascar with confidence"}
@@ -187,7 +187,7 @@ export function AuthForm({ defaultTab = "signin" }: AuthFormProps) {
           onValueChange={(value) => setActiveTab(value as "signin" | "signup")}
           className="w-full"
         >
-          <TabsList className="grid w-full grid-cols-2 mb-4 bg-muted/50">
+          <TabsList className="grid w-full grid-cols-2 mb-4 bg-muted/70 dark:bg-muted/80 border border-border/30">
             <TabsTrigger
               value="signin"
               className="data-[state=active]:bg-background data-[state=active]:text-foreground transition-all duration-300"
@@ -211,7 +211,7 @@ export function AuthForm({ defaultTab = "signin" }: AuthFormProps) {
             >
               <Button
                 variant="outline"
-                className="w-full h-12 border-2 hover:border-emerald-200 dark:hover:border-emerald-800 transition-all duration-300"
+                className="w-full h-12 border-2 border-border hover:border-emerald-300 dark:border-border dark:hover:border-emerald-600 dark:bg-card dark:text-foreground transition-all duration-300"
                 onClick={() => handleSocialAuth("Google")}
               >
                 <Chrome className="mr-3 h-5 w-5 text-red-500" />
@@ -329,7 +329,7 @@ export function AuthForm({ defaultTab = "signin" }: AuthFormProps) {
                 >
                   <Button
                     type="submit"
-                    className="w-full h-12 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white font-medium transition-all duration-300"
+                    className="w-full h-12 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 dark:from-emerald-500 dark:to-emerald-600 dark:hover:from-emerald-600 dark:hover:to-emerald-700 text-white font-medium transition-all duration-300"
                     disabled={isLoading}
                   >
                     {isLoading ? (
@@ -534,7 +534,7 @@ export function AuthForm({ defaultTab = "signin" }: AuthFormProps) {
                 >
                   <Button
                     type="submit"
-                    className="w-full h-12 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white font-medium transition-all duration-300"
+                    className="w-full h-12 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 dark:from-emerald-500 dark:to-emerald-600 dark:hover:from-emerald-600 dark:hover:to-emerald-700 text-white font-medium transition-all duration-300"
                     disabled={isLoading}
                   >
                     {isLoading ? (
@@ -583,9 +583,11 @@ export function AuthForm({ defaultTab = "signin" }: AuthFormProps) {
             >
               <Alert
                 variant="destructive"
-                className="border-red-200 dark:border-red-800"
+                className="border-red-200 dark:border-red-700 bg-red-50 dark:bg-red-950/20"
               >
-                <AlertDescription className="text-sm">{error}</AlertDescription>
+                <AlertDescription className="text-sm text-red-700 dark:text-red-300">
+                  {error}
+                </AlertDescription>
               </Alert>
             </motion.div>
           )}
@@ -598,8 +600,8 @@ export function AuthForm({ defaultTab = "signin" }: AuthFormProps) {
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.3 }}
             >
-              <Alert className="border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/30">
-                <AlertDescription className="text-sm text-emerald-700 dark:text-emerald-400">
+              <Alert className="border-emerald-200 dark:border-emerald-600 bg-emerald-50 dark:bg-emerald-950/30">
+                <AlertDescription className="text-sm text-emerald-700 dark:text-emerald-300">
                   {success}
                 </AlertDescription>
               </Alert>
