@@ -43,7 +43,11 @@ export function TransferFilters({
     key: keyof TransferFilters,
     value: string | number | undefined
   ) => {
-    const newFilters = { ...filters, [key]: value };
+    // Convert "all", "none" values to empty string for filtering
+    const processedValue =
+      value === "all" || value === "none" ? undefined : value;
+
+    const newFilters = { ...filters, [key]: processedValue };
     setFilters(newFilters);
     onFilterChange(newFilters);
   };
@@ -160,7 +164,7 @@ export function TransferFilters({
             <div className="space-y-2">
               <Label htmlFor="beneficiary">Beneficiary</Label>
               <Select
-                value={filters.beneficiary || ""}
+                value={filters.beneficiary || "all"}
                 onValueChange={(value) =>
                   handleFilterChange("beneficiary", value)
                 }
@@ -169,7 +173,7 @@ export function TransferFilters({
                   <SelectValue placeholder="All beneficiaries" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All beneficiaries</SelectItem>
+                  <SelectItem value="all">All beneficiaries</SelectItem>
                   {beneficiaries.map((beneficiary) => (
                     <SelectItem key={beneficiary.id} value={beneficiary.id}>
                       {beneficiary.name}
@@ -183,14 +187,14 @@ export function TransferFilters({
             <div className="space-y-2">
               <Label htmlFor="operator">Mobile Operator</Label>
               <Select
-                value={filters.operator || ""}
+                value={filters.operator || "all"}
                 onValueChange={(value) => handleFilterChange("operator", value)}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="All operators" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All operators</SelectItem>
+                  <SelectItem value="all">All operators</SelectItem>
                   {operators.map((operator) => (
                     <SelectItem key={operator} value={operator}>
                       {operator}
@@ -204,14 +208,14 @@ export function TransferFilters({
             <div className="space-y-2">
               <Label htmlFor="status">Status</Label>
               <Select
-                value={filters.status || ""}
+                value={filters.status || "all"}
                 onValueChange={(value) => handleFilterChange("status", value)}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="All statuses" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All statuses</SelectItem>
+                  <SelectItem value="all">All statuses</SelectItem>
                   <SelectItem value="PENDING">Pending</SelectItem>
                   <SelectItem value="PROCESSING">Processing</SelectItem>
                   <SelectItem value="COMPLETED">Completed</SelectItem>

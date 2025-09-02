@@ -54,7 +54,7 @@ export function BeneficiaryForm({
         address: beneficiary.address || "",
         city: beneficiary.city,
         country: beneficiary.country,
-        operator: (beneficiary as any).operator || "",
+        operator: (beneficiary as any).operator || "none",
       });
     }
   }, [beneficiary, mode]);
@@ -79,12 +79,18 @@ export function BeneficiaryForm({
 
       const method = mode === "edit" ? "PUT" : "POST";
 
+      // Process form data to handle "none" operator value
+      const processedFormData = {
+        ...formData,
+        operator: formData.operator === "none" ? null : formData.operator,
+      };
+
       const response = await fetch(url, {
         method,
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(processedFormData),
       });
 
       const data = await response.json();
@@ -103,181 +109,166 @@ export function BeneficiaryForm({
   };
 
   return (
-    <div className="max-w-2xl mx-auto">
-      <Card className="shadow-sm">
-        {mode === "create" && (
-          <CardHeader>
-            <CardTitle className="text-2xl">Add Beneficiary</CardTitle>
-            <CardDescription>
-              Add someone who will receive your money transfers
-            </CardDescription>
-          </CardHeader>
-        )}
-        <CardContent className={mode === "edit" ? "pt-6" : ""}>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-2">
-              <Label htmlFor="name" className="text-sm font-medium">
-                Full Name
-              </Label>
-              <div className="relative">
-                <User className="absolute left-3 top-3 h-3 w-3 text-muted-foreground" />
-                <Input
-                  id="name"
-                  name="name"
-                  type="text"
-                  placeholder="Enter full name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="pl-10 h-12"
-                  required
-                />
-              </div>
-            </div>
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="space-y-2">
+        <Label htmlFor="name" className="text-sm font-medium">
+          Full Name
+        </Label>
+        <div className="relative">
+          <User className="absolute left-3 top-3 h-3 w-3 text-muted-foreground" />
+          <Input
+            id="name"
+            name="name"
+            type="text"
+            placeholder="Enter full name"
+            value={formData.name}
+            onChange={handleChange}
+            className="pl-10 h-12"
+            required
+          />
+        </div>
+      </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="phone" className="text-sm font-medium">
-                Phone Number
-              </Label>
-              <div className="relative">
-                <Phone className="absolute left-3 top-3 h-3 w-3 text-muted-foreground" />
-                <Input
-                  id="phone"
-                  name="phone"
-                  type="tel"
-                  placeholder="Enter phone number"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  className="pl-10 h-12"
-                  required
-                />
-              </div>
-              <p className="text-xs text-muted-foreground">
-                Include country code (e.g., +261 for Madagascar)
-              </p>
-            </div>
+      <div className="space-y-2">
+        <Label htmlFor="phone" className="text-sm font-medium">
+          Phone Number
+        </Label>
+        <div className="relative">
+          <Phone className="absolute left-3 top-3 h-3 w-3 text-muted-foreground" />
+          <Input
+            id="phone"
+            name="phone"
+            type="tel"
+            placeholder="Enter phone number"
+            value={formData.phone}
+            onChange={handleChange}
+            className="pl-10 h-12"
+            required
+          />
+        </div>
+        <p className="text-xs text-muted-foreground">
+          Include country code (e.g., +261 for Madagascar)
+        </p>
+      </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="operator" className="text-sm font-medium">
-                Mobile Money Operator (Optional)
-              </Label>
-              <div className="relative">
-                <Smartphone className="absolute left-3 top-3 h-3 w-3 text-muted-foreground" />
-                <Select
-                  value={formData.operator}
-                  onValueChange={(value) =>
-                    setFormData((prev) => ({ ...prev, operator: value }))
-                  }
-                >
-                  <SelectTrigger className="pl-10 h-12">
-                    <SelectValue placeholder="Select mobile money operator" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="">No operator</SelectItem>
-                    <SelectItem value="Orange Money">Orange Money</SelectItem>
-                    <SelectItem value="Airtel Money">Airtel Money</SelectItem>
-                    <SelectItem value="Telma Money">Telma Money</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <p className="text-xs text-muted-foreground">
-                Selecting an operator enables automatic transfers for this
-                beneficiary
-              </p>
-            </div>
+      <div className="space-y-2">
+        <Label htmlFor="operator" className="text-sm font-medium">
+          Mobile Money Operator (Optional)
+        </Label>
+        <div className="relative">
+          <Smartphone className="absolute left-3 top-3 h-3 w-3 text-muted-foreground" />
+          <Select
+            value={formData.operator}
+            onValueChange={(value) =>
+              setFormData((prev) => ({ ...prev, operator: value }))
+            }
+          >
+            <SelectTrigger className="pl-10 h-12">
+              <SelectValue placeholder="Select mobile money operator" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="none">No operator</SelectItem>
+              <SelectItem value="Orange Money">Orange Money</SelectItem>
+              <SelectItem value="Airtel Money">Airtel Money</SelectItem>
+              <SelectItem value="Telma Money">Telma Money</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <p className="text-xs text-muted-foreground">
+          Selecting an operator enables automatic transfers for this beneficiary
+        </p>
+      </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="address" className="text-sm font-medium">
-                Address (Optional)
-              </Label>
-              <div className="relative">
-                <Home className="absolute left-3 top-3 h-3 w-3 text-muted-foreground" />
-                <Input
-                  id="address"
-                  name="address"
-                  type="text"
-                  placeholder="Enter address"
-                  value={formData.address}
-                  onChange={handleChange}
-                  className="pl-10 h-12"
-                />
-              </div>
-            </div>
+      <div className="space-y-2">
+        <Label htmlFor="address" className="text-sm font-medium">
+          Address (Optional)
+        </Label>
+        <div className="relative">
+          <Home className="absolute left-3 top-3 h-3 w-3 text-muted-foreground" />
+          <Input
+            id="address"
+            name="address"
+            type="text"
+            placeholder="Enter address"
+            value={formData.address}
+            onChange={handleChange}
+            className="pl-10 h-12"
+          />
+        </div>
+      </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="city" className="text-sm font-medium">
-                City
-              </Label>
-              <div className="relative">
-                <MapPin className="absolute left-3 top-3 h-3 w-3 text-muted-foreground" />
-                <Input
-                  id="city"
-                  name="city"
-                  type="text"
-                  placeholder="Enter city"
-                  value={formData.city}
-                  onChange={handleChange}
-                  className="pl-10 h-12"
-                  required
-                />
-              </div>
-            </div>
+      <div className="space-y-2">
+        <Label htmlFor="city" className="text-sm font-medium">
+          City
+        </Label>
+        <div className="relative">
+          <MapPin className="absolute left-3 top-3 h-3 w-3 text-muted-foreground" />
+          <Input
+            id="city"
+            name="city"
+            type="text"
+            placeholder="Enter city"
+            value={formData.city}
+            onChange={handleChange}
+            className="pl-10 h-12"
+            required
+          />
+        </div>
+      </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="country" className="text-sm font-medium">
-                Country
-              </Label>
-              <div className="relative">
-                <MapPin className="absolute left-3 top-3 h-3 w-3 text-muted-foreground" />
-                <Input
-                  id="country"
-                  name="country"
-                  type="text"
-                  value={formData.country}
-                  onChange={handleChange}
-                  className="pl-10 h-12"
-                  readOnly
-                />
-              </div>
-              <p className="text-sm text-muted-foreground">
-                Currently only supporting transfers to Madagascar
-              </p>
-            </div>
+      <div className="space-y-2">
+        <Label htmlFor="country" className="text-sm font-medium">
+          Country
+        </Label>
+        <div className="relative">
+          <MapPin className="absolute left-3 top-3 h-3 w-3 text-muted-foreground" />
+          <Input
+            id="country"
+            name="country"
+            type="text"
+            value={formData.country}
+            onChange={handleChange}
+            className="pl-10 h-12"
+            readOnly
+          />
+        </div>
+        <p className="text-sm text-muted-foreground">
+          Currently only supporting transfers to Madagascar
+        </p>
+      </div>
 
-            {error && (
-              <Alert variant="destructive">
-                <AlertDescription>{error}</AlertDescription>
-              </Alert>
-            )}
+      {error && (
+        <Alert variant="destructive">
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      )}
 
-            <div className="flex gap-4">
-              <Button
-                type="button"
-                variant="outline"
-                className="flex-1 bg-transparent"
-                onClick={() => router.push("/dashboard/beneficiaries")}
-              >
-                Cancel
-              </Button>
-              <Button
-                type="submit"
-                className="flex-1 bg-emerald-600 hover:bg-emerald-700"
-                disabled={isLoading}
-              >
-                {isLoading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    {mode === "edit" ? "Updating..." : "Adding..."}
-                  </>
-                ) : mode === "edit" ? (
-                  "Update Beneficiary"
-                ) : (
-                  "Add Beneficiary"
-                )}
-              </Button>
-            </div>
-          </form>
-        </CardContent>
-      </Card>
-    </div>
+      <div className="flex gap-4">
+        <Button
+          type="button"
+          variant="outline"
+          className="flex-1 bg-transparent"
+          onClick={() => router.push("/dashboard/beneficiaries")}
+        >
+          Cancel
+        </Button>
+        <Button
+          type="submit"
+          className="flex-1 bg-emerald-600 hover:bg-emerald-700"
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              {mode === "edit" ? "Updating..." : "Adding..."}
+            </>
+          ) : mode === "edit" ? (
+            "Update Beneficiary"
+          ) : (
+            "Add Beneficiary"
+          )}
+        </Button>
+      </div>
+    </form>
   );
 }
