@@ -79,7 +79,6 @@ export function BeneficiaryForm({
 
       const method = mode === "edit" ? "PUT" : "POST";
 
-      // Process form data to handle "none" operator value
       const processedFormData = {
         ...formData,
         operator: formData.operator === "none" ? null : formData.operator,
