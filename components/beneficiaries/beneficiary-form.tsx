@@ -108,175 +108,208 @@ export function BeneficiaryForm({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="space-y-2">
-        <Label htmlFor="name" className="text-sm font-medium text-foreground">
-          Full Name
-        </Label>
-        <div className="relative">
-          <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            id="name"
-            name="name"
-            type="text"
-            placeholder="Enter full name"
-            value={formData.name}
-            onChange={handleChange}
-            className="pl-10 h-12 bg-background border-border focus:border-primary"
-            required
-          />
-        </div>
-      </div>
+    <div className="bg-card border border-border rounded-lg p-6">
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Personal Information Section */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold text-foreground border-b border-border pb-2">
+            Personal Information
+          </h3>
 
-      <div className="space-y-2">
-        <Label htmlFor="phone" className="text-sm font-medium text-foreground">
-          Phone Number
-        </Label>
-        <div className="relative">
-          <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            id="phone"
-            name="phone"
-            type="tel"
-            placeholder="Enter phone number"
-            value={formData.phone}
-            onChange={handleChange}
-            className="pl-10 h-12 bg-background border-border focus:border-primary"
-            required
-          />
-        </div>
-        <p className="text-xs text-muted-foreground">
-          Include country code (e.g., +261 for Madagascar)
-        </p>
-      </div>
+          <div className="space-y-2">
+            <Label
+              htmlFor="name"
+              className="text-sm font-medium text-foreground"
+            >
+              Full Name
+            </Label>
+            <div className="relative">
+              <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                id="name"
+                name="name"
+                type="text"
+                placeholder="Enter full name"
+                value={formData.name}
+                onChange={handleChange}
+                className="pl-10 h-12 bg-background border-border focus:border-primary"
+                required
+              />
+            </div>
+          </div>
 
-      <div className="space-y-2">
-        <Label
-          htmlFor="operator"
-          className="text-sm font-medium text-foreground"
-        >
-          Mobile Money Operator (Optional)
-        </Label>
-        <div className="relative">
-          <Smartphone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground z-10" />
-          <Select
-            value={formData.operator}
-            onValueChange={(value) =>
-              setFormData((prev) => ({ ...prev, operator: value }))
-            }
+          <div className="space-y-2">
+            <Label
+              htmlFor="phone"
+              className="text-sm font-medium text-foreground"
+            >
+              Phone Number
+            </Label>
+            <div className="relative">
+              <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                id="phone"
+                name="phone"
+                type="tel"
+                placeholder="Enter phone number"
+                value={formData.phone}
+                onChange={handleChange}
+                className="pl-10 h-12 bg-background border-border focus:border-primary"
+                required
+              />
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Include country code (e.g., +261 for Madagascar)
+            </p>
+          </div>
+        </div>
+
+        {/* Payment Information Section */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold text-foreground border-b border-border pb-2">
+            Payment Information
+          </h3>
+
+          <div className="space-y-2">
+            <Label
+              htmlFor="operator"
+              className="text-sm font-medium text-foreground"
+            >
+              Mobile Money Operator (Optional)
+            </Label>
+            <div className="relative">
+              <Smartphone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground z-10" />
+              <Select
+                value={formData.operator}
+                onValueChange={(value) =>
+                  setFormData((prev) => ({ ...prev, operator: value }))
+                }
+              >
+                <SelectTrigger className="pl-10 h-12 bg-background border-border focus:border-primary">
+                  <SelectValue placeholder="Select mobile money operator" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="none">No operator</SelectItem>
+                  <SelectItem value="Orange Money">Orange Money</SelectItem>
+                  <SelectItem value="Airtel Money">Airtel Money</SelectItem>
+                  <SelectItem value="Telma Money">Telma Money</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Selecting an operator enables automatic transfers for this
+              beneficiary
+            </p>
+          </div>
+        </div>
+
+        {/* Location Information Section */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold text-foreground border-b border-border pb-2">
+            Location Information
+          </h3>
+
+          <div className="space-y-2">
+            <Label
+              htmlFor="address"
+              className="text-sm font-medium text-foreground"
+            >
+              Address (Optional)
+            </Label>
+            <div className="relative">
+              <Home className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                id="address"
+                name="address"
+                type="text"
+                placeholder="Enter address"
+                value={formData.address}
+                onChange={handleChange}
+                className="pl-10 h-12 bg-background border-border focus:border-primary"
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label
+              htmlFor="city"
+              className="text-sm font-medium text-foreground"
+            >
+              City
+            </Label>
+            <div className="relative">
+              <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                id="city"
+                name="city"
+                type="text"
+                placeholder="Enter city"
+                value={formData.city}
+                onChange={handleChange}
+                className="pl-10 h-12 bg-background border-border focus:border-primary"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label
+              htmlFor="country"
+              className="text-sm font-medium text-foreground"
+            >
+              Country
+            </Label>
+            <div className="relative">
+              <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                id="country"
+                name="country"
+                type="text"
+                value={formData.country}
+                onChange={handleChange}
+                className="pl-10 h-12 bg-background border-border focus:border-primary"
+                readOnly
+              />
+            </div>
+            <p className="text-sm text-muted-foreground">
+              Currently only supporting transfers to Madagascar
+            </p>
+          </div>
+        </div>
+
+        {error && (
+          <Alert variant="destructive">
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
+
+        <div className="flex gap-4 pt-4">
+          <Button
+            type="button"
+            variant="outline"
+            className="flex-1 h-12 border-border hover:bg-muted"
+            onClick={() => router.push("/dashboard/beneficiaries")}
           >
-            <SelectTrigger className="pl-10 h-12 bg-background border-border focus:border-primary">
-              <SelectValue placeholder="Select mobile money operator" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="none">No operator</SelectItem>
-              <SelectItem value="Orange Money">Orange Money</SelectItem>
-              <SelectItem value="Airtel Money">Airtel Money</SelectItem>
-              <SelectItem value="Telma Money">Telma Money</SelectItem>
-            </SelectContent>
-          </Select>
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            className="flex-1 h-12 bg-emerald-600 hover:bg-emerald-700 text-white"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                {mode === "edit" ? "Updating..." : "Adding..."}
+              </>
+            ) : mode === "edit" ? (
+              "Update Beneficiary"
+            ) : (
+              "Add Beneficiary"
+            )}
+          </Button>
         </div>
-        <p className="text-xs text-muted-foreground">
-          Selecting an operator enables automatic transfers for this beneficiary
-        </p>
-      </div>
-
-      <div className="space-y-2">
-        <Label
-          htmlFor="address"
-          className="text-sm font-medium text-foreground"
-        >
-          Address (Optional)
-        </Label>
-        <div className="relative">
-          <Home className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            id="address"
-            name="address"
-            type="text"
-            placeholder="Enter address"
-            value={formData.address}
-            onChange={handleChange}
-            className="pl-10 h-12 bg-background border-border focus:border-primary"
-          />
-        </div>
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="city" className="text-sm font-medium text-foreground">
-          City
-        </Label>
-        <div className="relative">
-          <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            id="city"
-            name="city"
-            type="text"
-            placeholder="Enter city"
-            value={formData.city}
-            onChange={handleChange}
-            className="pl-10 h-12 bg-background border-border focus:border-primary"
-            required
-          />
-        </div>
-      </div>
-
-      <div className="space-y-2">
-        <Label
-          htmlFor="country"
-          className="text-sm font-medium text-foreground"
-        >
-          Country
-        </Label>
-        <div className="relative">
-          <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            id="country"
-            name="country"
-            type="text"
-            value={formData.country}
-            onChange={handleChange}
-            className="pl-10 h-12 bg-background border-border focus:border-primary"
-            readOnly
-          />
-        </div>
-        <p className="text-sm text-muted-foreground">
-          Currently only supporting transfers to Madagascar
-        </p>
-      </div>
-
-      {error && (
-        <Alert variant="destructive">
-          <AlertDescription>{error}</AlertDescription>
-        </Alert>
-      )}
-
-      <div className="flex gap-4 pt-4">
-        <Button
-          type="button"
-          variant="outline"
-          className="flex-1 h-12 border-border hover:bg-muted"
-          onClick={() => router.push("/dashboard/beneficiaries")}
-        >
-          Cancel
-        </Button>
-        <Button
-          type="submit"
-          className="flex-1 h-12 bg-emerald-600 hover:bg-emerald-700 text-white"
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              {mode === "edit" ? "Updating..." : "Adding..."}
-            </>
-          ) : mode === "edit" ? (
-            "Update Beneficiary"
-          ) : (
-            "Add Beneficiary"
-          )}
-        </Button>
-      </div>
-    </form>
+      </form>
+    </div>
   );
 }
