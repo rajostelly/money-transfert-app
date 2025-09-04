@@ -8,8 +8,8 @@ export default async function NewBeneficiaryPage() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-6">
-        <div>
+      <div className="max-w-4xl">
+        <div className="mb-8">
           <h1 className="text-3xl font-bold text-foreground">
             Add Beneficiary
           </h1>
@@ -17,9 +17,9 @@ export default async function NewBeneficiaryPage() {
             Add someone who will receive your money transfers
           </p>
         </div>
-        <div className="max-w-2xl mx-auto">
-          <Card className="shadow-sm">
-            <CardContent className="pt-6">
+        <div className="max-w-2xl">
+          <Card className="shadow-sm border-0 bg-card/50">
+            <CardContent className="pt-6 px-6 pb-6">
               <BeneficiaryForm />
             </CardContent>
           </Card>
