@@ -114,7 +114,7 @@ export function BeneficiaryForm({
           Full Name
         </Label>
         <div className="relative">
-          <User className="absolute left-3 top-3 h-3 w-3 text-muted-foreground" />
+          <User className="absolute left-3 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground" />
           <Input
             id="name"
             name="name"
@@ -133,7 +133,7 @@ export function BeneficiaryForm({
           Phone Number
         </Label>
         <div className="relative">
-          <Phone className="absolute left-3 top-3 h-3 w-3 text-muted-foreground" />
+          <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground" />
           <Input
             id="phone"
             name="phone"
@@ -155,7 +155,7 @@ export function BeneficiaryForm({
           Mobile Money Operator (Optional)
         </Label>
         <div className="relative">
-          <Smartphone className="absolute left-3 top-3 h-3 w-3 text-muted-foreground" />
+          <Smartphone className="absolute left-3 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground" />
           <Select
             value={formData.operator}
             onValueChange={(value) =>
@@ -183,7 +183,7 @@ export function BeneficiaryForm({
           Address (Optional)
         </Label>
         <div className="relative">
-          <Home className="absolute left-3 top-3 h-3 w-3 text-muted-foreground" />
+          <Home className="absolute left-3 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground" />
           <Input
             id="address"
             name="address"
@@ -201,7 +201,7 @@ export function BeneficiaryForm({
           City
         </Label>
         <div className="relative">
-          <MapPin className="absolute left-3 top-3 h-3 w-3 text-muted-foreground" />
+          <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground" />
           <Input
             id="city"
             name="city"
@@ -220,7 +220,7 @@ export function BeneficiaryForm({
           Country
         </Label>
         <div className="relative">
-          <MapPin className="absolute left-3 top-3 h-3 w-3 text-muted-foreground" />
+          <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground" />
           <Input
             id="country"
             name="country"
