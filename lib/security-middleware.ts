@@ -36,7 +36,22 @@ export class SecurityMiddleware {
     const identifier = `${endpointType}:${ip}`;
     const now = Date.now();
     const windowMs = 60 * 60 * 1000; // 1 hour
-    const maxRequests = endpointType === "auth" ? 50 : 100; // Increased from 5 to 50
+
+    // More generous rate limits for development
+    let maxRequests: number;
+    switch (endpointType) {
+      case "auth":
+        maxRequests = 200; // Increased from 50
+        break;
+      case "payment":
+        maxRequests = 500; // Increased for subscriptions/transfers
+        break;
+      case "admin":
+        maxRequests = 100;
+        break;
+      default:
+        maxRequests = 300; // Increased default
+    }
 
     const current = this.requestCounts.get(identifier);
 
@@ -60,6 +75,58 @@ export class SecurityMiddleware {
 
     current.count++;
     return null;
+  }
+
+  /**
+   * Clear rate limit cache for development purposes
+   */
+  static clearRateLimitCache(): void {
+    this.requestCounts.clear();
+  }
+
+  /**
+   * Get current rate limit status for debugging
+   */
+  static getRateLimitStatus(
+    request: NextRequest,
+    endpointType: string
+  ): {
+    remaining: number;
+    total: number;
+    resetTime: number;
+  } {
+    const ip = this.getClientIP(request);
+    const identifier = `${endpointType}:${ip}`;
+    const current = this.requestCounts.get(identifier);
+
+    let maxRequests: number;
+    switch (endpointType) {
+      case "auth":
+        maxRequests = 200;
+        break;
+      case "payment":
+        maxRequests = 500;
+        break;
+      case "admin":
+        maxRequests = 100;
+        break;
+      default:
+        maxRequests = 300;
+    }
+
+    if (!current) {
+      return {
+        remaining: maxRequests,
+        total: maxRequests,
+        resetTime: Date.now() + 60 * 60 * 1000,
+      };
+    }
+
+    return {
+      remaining: Math.max(0, maxRequests - current.count),
+      total: maxRequests,
+      resetTime: current.resetTime,
+    };
   }
 
   /**
