@@ -110,7 +110,7 @@ export function BeneficiaryForm({
   return (
     <div className="bg-card border border-border rounded-lg p-6">
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Personal information section */}
+        {/* Personal Information Section */}
         <div className="space-y-4">
           <h3 className="text-lg font-semibold text-foreground border-b border-border pb-2">
             Personal Information
