@@ -85,7 +85,7 @@ export async function GET(request: NextRequest) {
         },
         database: {
           performance: dbMetrics,
-          connectionHealth: "GOOD", // Simplified for now
+          connectionHealth: "GOOD",
         },
         paymentGateways: gatewayHealth,
         audit: auditSummary.summary,
