@@ -13,11 +13,11 @@ export function MobileMenu() {
     <>
       {/* Mobile Menu Button */}
       <button
-        className="md:hidden text-white p-2"
+        className="md:hidden text-white p-1.5"
         onClick={toggleMenu}
         aria-label="Toggle mobile menu"
       >
-        {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
       </button>
 
       {/* Mobile Menu Overlay */}
@@ -34,12 +34,12 @@ export function MobileMenu() {
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="p-6">
-          <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center gap-3">
-              <div className="h-8 w-8 bg-gradient-to-br from-green-forest-500 to-green-olive-500 rounded-lg flex items-center justify-center">
+        <div className="p-4">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-2">
+              <div className="h-7 w-7 bg-gradient-to-br from-green-forest-500 to-green-olive-500 rounded-lg flex items-center justify-center">
                 <svg
-                  className="h-5 w-5 text-white"
+                  className="h-4 w-4 text-white"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -51,56 +51,58 @@ export function MobileMenu() {
                   <path d="M9 12l2 2 4-4" />
                 </svg>
               </div>
-              <span className="text-lg font-bold text-white">TransferApp</span>
+              <span className="text-base font-bold text-white">
+                TransferApp
+              </span>
             </div>
-            <button onClick={toggleMenu} className="text-white p-2">
-              <X className="w-6 h-6" />
+            <button onClick={toggleMenu} className="text-white p-1">
+              <X className="w-5 h-5" />
             </button>
           </div>
 
-          <nav className="space-y-6">
+          <nav className="space-y-4">
             <a
               href="#features"
-              className="block text-white/90 hover:text-green-olive-300 transition-colors duration-300 font-medium text-lg"
+              className="block text-white/90 hover:text-green-olive-300 transition-colors duration-300 font-medium text-base"
               onClick={toggleMenu}
             >
               Features
             </a>
             <a
               href="#how-it-works"
-              className="block text-white/90 hover:text-green-olive-300 transition-colors duration-300 font-medium text-lg"
+              className="block text-white/90 hover:text-green-olive-300 transition-colors duration-300 font-medium text-base"
               onClick={toggleMenu}
             >
               How it Works
             </a>
             <a
               href="#pricing"
-              className="block text-white/90 hover:text-green-olive-300 transition-colors duration-300 font-medium text-lg"
+              className="block text-white/90 hover:text-green-olive-300 transition-colors duration-300 font-medium text-base"
               onClick={toggleMenu}
             >
               Pricing
             </a>
             <a
               href="#support"
-              className="block text-white/90 hover:text-green-olive-300 transition-colors duration-300 font-medium text-lg"
+              className="block text-white/90 hover:text-green-olive-300 transition-colors duration-300 font-medium text-base"
               onClick={toggleMenu}
             >
               Support
             </a>
           </nav>
 
-          <div className="mt-8 pt-6 border-t border-white/20">
-            <div className="space-y-4">
+          <div className="mt-6 pt-4 border-t border-white/20">
+            <div className="space-y-3">
               <Link
                 href="/auth?tab=signin"
-                className="block w-full text-center text-white/90 hover:text-white hover:bg-white/10 px-4 py-3 rounded-lg transition-all duration-300 font-medium"
+                className="block w-full text-center text-white/90 hover:text-white hover:bg-white/10 px-4 py-2.5 rounded-lg transition-all duration-300 font-medium text-sm"
                 onClick={toggleMenu}
               >
                 Sign In
               </Link>
               <Link
                 href="/auth?tab=signup"
-                className="block w-full text-center bg-gradient-to-r from-green-olive-500 to-green-forest-500 hover:from-green-olive-600 hover:to-green-forest-600 text-white px-4 py-3 rounded-lg font-semibold transition-all duration-300"
+                className="block w-full text-center bg-gradient-to-r from-green-olive-500 to-green-forest-500 hover:from-green-olive-600 hover:to-green-forest-600 text-white px-4 py-2.5 rounded-lg font-semibold transition-all duration-300 text-sm"
                 onClick={toggleMenu}
               >
                 Start Free Trial
