@@ -93,7 +93,7 @@ export function SubscriptionListClient({
       {subscriptions.active.length > 0 && (
         <Card className="shadow-sm">
           <CardHeader>
-            <CardTitle className="text-xl text-emerald-600">
+            <CardTitle className="text-xl text-green-forest-600">
               Active Subscriptions
             </CardTitle>
             <CardDescription>
@@ -118,7 +118,7 @@ export function SubscriptionListClient({
       {subscriptions.paused.length > 0 && (
         <Card className="shadow-sm">
           <CardHeader>
-            <CardTitle className="text-xl text-yellow-600">
+            <CardTitle className="text-xl text-green-olive-600">
               Paused Subscriptions
             </CardTitle>
             <CardDescription>

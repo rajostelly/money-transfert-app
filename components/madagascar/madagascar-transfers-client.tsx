@@ -213,8 +213,8 @@ export function MadagascarTransfersClient({
         {transfers.length === 0 ? (
           <Card className="shadow-sm">
             <CardContent className="flex flex-col items-center justify-center py-16 text-center">
-              <div className="mx-auto w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mb-4">
-                <CheckCircle className="h-8 w-8 text-emerald-600" />
+              <div className="mx-auto w-16 h-16 bg-green-forest-100 rounded-full flex items-center justify-center mb-4">
+                <CheckCircle className="h-8 w-8 text-green-forest-600" />
               </div>
               <h3 className="text-lg font-semibold text-foreground mb-2">
                 No transfers found
@@ -235,7 +235,7 @@ export function MadagascarTransfersClient({
                       {transfer.autoProcessed && (
                         <Badge
                           variant="secondary"
-                          className="bg-blue-100 text-blue-800"
+                          className="bg-gray-100 text-gray-800"
                         >
                           <Zap className="mr-1 h-3 w-3" />
                           Auto
@@ -254,9 +254,9 @@ export function MadagascarTransfersClient({
                       <Badge
                         className={
                           transfer.status === "PENDING"
-                            ? "bg-yellow-100 text-yellow-800"
+                            ? "bg-green-olive-100 text-green-olive-800"
                             : transfer.status === "COMPLETED"
-                            ? "bg-emerald-100 text-emerald-800"
+                            ? "bg-green-forest-100 text-green-forest-800"
                             : transfer.status === "FAILED"
                             ? "bg-red-100 text-red-800"
                             : "bg-gray-100 text-gray-800"

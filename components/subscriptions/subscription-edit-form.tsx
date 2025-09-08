@@ -144,9 +144,9 @@ export function SubscriptionEditForm({
   const getStatusColor = (status: string) => {
     switch (status) {
       case "ACTIVE":
-        return "bg-emerald-100 text-emerald-800";
+        return "bg-green-forest-100 text-green-forest-800";
       case "PAUSED":
-        return "bg-yellow-100 text-yellow-800";
+        return "bg-green-olive-100 text-green-olive-800";
       case "CANCELLED":
         return "bg-red-100 text-red-800";
       default:
@@ -197,7 +197,7 @@ export function SubscriptionEditForm({
                 size="sm"
                 onClick={() => handleStatusChange("PAUSED")}
                 disabled={isLoading}
-                className="text-yellow-600 border-yellow-600 hover:bg-yellow-50"
+                className="text-green-olive-600 border-green-olive-600 hover:bg-green-olive-50"
               >
                 <Pause className="mr-2 h-4 w-4" />
                 Pause
@@ -210,7 +210,7 @@ export function SubscriptionEditForm({
                 size="sm"
                 onClick={() => handleStatusChange("ACTIVE")}
                 disabled={isLoading}
-                className="text-emerald-600 border-emerald-600 hover:bg-emerald-50"
+                className="text-green-forest-600 border-green-forest-600 hover:bg-green-forest-50"
               >
                 <Play className="mr-2 h-4 w-4" />
                 Resume
@@ -346,7 +346,7 @@ export function SubscriptionEditForm({
               )}
 
               {success && (
-                <Alert className="border-emerald-200 bg-emerald-50 text-emerald-800">
+                <Alert className="border-green-forest-200 bg-green-forest-50 text-green-forest-800">
                   <AlertDescription>{success}</AlertDescription>
                 </Alert>
               )}
@@ -362,7 +362,7 @@ export function SubscriptionEditForm({
                 </Button>
                 <Button
                   type="submit"
-                  className="flex-1 bg-emerald-600 hover:bg-emerald-700"
+                  className="flex-1 bg-green-forest-600 hover:bg-green-forest-700"
                   disabled={isLoading || beneficiaries.length === 0}
                 >
                   {isLoading ? (

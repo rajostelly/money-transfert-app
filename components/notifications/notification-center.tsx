@@ -109,7 +109,7 @@ export function NotificationCenter({
           <TabsTrigger value="unread" className="relative">
             Unread ({unreadNotifications.length})
             {unreadNotifications.length > 0 && (
-              <Badge className="ml-2 h-5 w-5 p-0 bg-emerald-600 text-white text-xs">
+              <Badge className="ml-2 h-5 w-5 p-0 bg-green-forest-600 text-white text-xs">
                 {unreadNotifications.length}
               </Badge>
             )}

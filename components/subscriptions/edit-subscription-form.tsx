@@ -271,7 +271,7 @@ export function EditSubscriptionForm({
               </Button>
               <Button
                 type="submit"
-                className="flex-1 bg-emerald-600 hover:bg-emerald-700"
+                className="flex-1 bg-green-forest-600 hover:bg-green-forest-700"
                 disabled={isLoading}
               >
                 {isLoading ? (

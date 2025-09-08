@@ -134,7 +134,7 @@ export function SubscriptionForm({ beneficiaries }: SubscriptionFormProps) {
                   No beneficiaries found.{" "}
                   <Button
                     variant="link"
-                    className="p-0 h-auto text-emerald-600"
+                    className="p-0 h-auto text-green-forest-600"
                     onClick={() => router.push("/dashboard/beneficiaries/new")}
                   >
                     Add one first
@@ -227,7 +227,7 @@ export function SubscriptionForm({ beneficiaries }: SubscriptionFormProps) {
               </Button>
               <Button
                 type="submit"
-                className="flex-1 bg-emerald-600 hover:bg-emerald-700"
+                className="flex-1 bg-green-forest-600 hover:bg-green-forest-700"
                 disabled={isLoading || beneficiaries.length === 0}
               >
                 {isLoading ? (

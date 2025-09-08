@@ -18,11 +18,11 @@ export function TransferCard({ transfer }: TransferCardProps) {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "COMPLETED":
-        return "bg-emerald-100 text-emerald-800";
+        return "bg-green-forest-100 text-green-forest-800";
       case "PENDING":
-        return "bg-yellow-100 text-yellow-800";
+        return "bg-green-olive-100 text-green-olive-800";
       case "PROCESSING":
-        return "bg-blue-100 text-blue-800";
+        return "bg-gray-100 text-gray-800";
       case "FAILED":
         return "bg-red-100 text-red-800";
       case "CANCELLED":

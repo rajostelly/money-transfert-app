@@ -167,7 +167,7 @@ export function TransferForm({ beneficiaries }: TransferFormProps) {
                   No beneficiaries found.{" "}
                   <Button
                     variant="link"
-                    className="p-0 h-auto text-emerald-600"
+                    className="p-0 h-auto text-green-forest-600"
                     onClick={() => router.push("/dashboard/beneficiaries/new")}
                   >
                     Add one first
@@ -201,12 +201,12 @@ export function TransferForm({ beneficiaries }: TransferFormProps) {
             </div>
 
             {/* Exchange Rate Info */}
-            <Card className="bg-blue-50 border-blue-200">
+            <Card className="bg-green-forest-50 border-green-forest-200">
               <CardContent className="pt-6">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center space-x-2">
-                    <TrendingUp className="h-4 w-4 text-blue-600" />
-                    <span className="text-sm font-medium text-blue-900">
+                    <TrendingUp className="h-4 w-4 text-green-forest-600" />
+                    <span className="text-sm font-medium text-green-forest-900">
                       Current Exchange Rate
                     </span>
                   </div>
@@ -217,7 +217,7 @@ export function TransferForm({ beneficiaries }: TransferFormProps) {
                       size="sm"
                       onClick={fetchExchangeRate}
                       disabled={isLoadingRate}
-                      className="h-6 px-2 text-xs text-blue-600 hover:text-blue-700"
+                      className="h-6 px-2 text-xs text-green-forest-600 hover:text-green-forest-700"
                     >
                       {isLoadingRate ? (
                         <Loader2 className="h-3 w-3 animate-spin" />
@@ -229,22 +229,22 @@ export function TransferForm({ beneficiaries }: TransferFormProps) {
                 </div>
                 {isLoadingRate ? (
                   <div className="flex items-center space-x-2">
-                    <Loader2 className="h-4 w-4 animate-spin text-blue-600" />
-                    <span className="text-sm text-blue-700">
+                    <Loader2 className="h-4 w-4 animate-spin text-green-forest-600" />
+                    <span className="text-sm text-green-forest-700">
                       Loading current rate...
                     </span>
                   </div>
                 ) : exchangeRate ? (
                   <div className="space-y-2">
-                    <p className="text-lg font-semibold text-blue-900">
+                    <p className="text-lg font-semibold text-green-forest-900">
                       1 CAD = {exchangeRate.rate.toLocaleString()} MGA
                     </p>
                     {rateError ? (
-                      <p className="text-xs text-amber-600">
+                      <p className="text-xs text-red-600">
                         {rateError} - Using fallback rate
                       </p>
                     ) : (
-                      <p className="text-xs text-blue-700">
+                      <p className="text-xs text-green-forest-700">
                         Rate updated in real-time
                       </p>
                     )}
@@ -294,11 +294,11 @@ export function TransferForm({ beneficiaries }: TransferFormProps) {
                         ${total.toFixed(2)} CAD
                       </span>
                     </div>
-                    <div className="flex justify-between text-sm bg-emerald-100 p-2 rounded">
-                      <span className="text-emerald-800">
+                    <div className="flex justify-between text-sm bg-green-forest-100 p-2 rounded">
+                      <span className="text-green-forest-800">
                         Recipient will receive:
                       </span>
-                      <span className="font-semibold text-emerald-800">
+                      <span className="font-semibold text-green-forest-800">
                         {amountMGA.toLocaleString()} MGA
                       </span>
                     </div>
@@ -332,7 +332,7 @@ export function TransferForm({ beneficiaries }: TransferFormProps) {
               </Button>
               <Button
                 type="submit"
-                className="flex-1 bg-emerald-600 hover:bg-emerald-700"
+                className="flex-1 bg-green-forest-600 hover:bg-green-forest-700"
                 disabled={
                   isLoading || beneficiaries.length === 0 || !exchangeRate
                 }

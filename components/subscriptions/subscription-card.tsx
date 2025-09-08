@@ -57,9 +57,9 @@ export function SubscriptionCard({
   const getStatusColor = (status: string) => {
     switch (status) {
       case "ACTIVE":
-        return "bg-emerald-100 text-emerald-800";
+        return "bg-green-forest-100 text-green-forest-800";
       case "PAUSED":
-        return "bg-yellow-100 text-yellow-800";
+        return "bg-green-olive-100 text-green-olive-800";
       case "CANCELLED":
         return "bg-red-100 text-red-800";
       default:
