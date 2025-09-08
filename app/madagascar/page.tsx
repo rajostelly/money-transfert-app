@@ -65,7 +65,10 @@ export default async function MadagascarDashboardPage() {
               Confirm and manage money transfers to beneficiaries
             </p>
           </div>
-          <Button asChild className="bg-blue-600 hover:bg-blue-700">
+          <Button
+            asChild
+            className="bg-green-forest-600 hover:bg-green-forest-700"
+          >
             <a href="/madagascar/transfers/enhanced">
               🔍 Advanced Transfer Management
             </a>
@@ -152,7 +155,7 @@ export default async function MadagascarDashboardPage() {
                       </div>
                       <Button
                         size="sm"
-                        className="bg-emerald-600 hover:bg-emerald-700"
+                        className="bg-green-forest-600 hover:bg-green-forest-700"
                       >
                         Confirm
                       </Button>

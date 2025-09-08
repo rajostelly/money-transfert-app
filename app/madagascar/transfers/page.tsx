@@ -159,7 +159,7 @@ export default async function MadagascarTransfersPage() {
                       >
                         <Button
                           type="submit"
-                          className="w-full bg-emerald-600 hover:bg-emerald-700"
+                          className="w-full bg-green-forest-600 hover:bg-green-forest-700"
                         >
                           <CheckCircle className="mr-2 h-4 w-4" />
                           Confirm Transfer

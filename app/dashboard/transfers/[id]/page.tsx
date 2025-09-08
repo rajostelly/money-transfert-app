@@ -1,13 +1,26 @@
-import { requireAuth } from "@/lib/auth-utils"
-import { prisma } from "@/lib/prisma"
-import { DashboardLayout } from "@/components/layout/dashboard-layout"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { ArrowLeft, Calendar, MapPin, User, TrendingUp, CreditCard } from "lucide-react"
-import { format } from "date-fns"
-import Link from "next/link"
-import { notFound } from "next/navigation"
+import { requireAuth } from "@/lib/auth-utils";
+import { prisma } from "@/lib/prisma";
+import { DashboardLayout } from "@/components/layout/dashboard-layout";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  ArrowLeft,
+  Calendar,
+  MapPin,
+  User,
+  TrendingUp,
+  CreditCard,
+} from "lucide-react";
+import { format } from "date-fns";
+import Link from "next/link";
+import { notFound } from "next/navigation";
 
 async function getTransfer(transferId: string, userId: string) {
   return await prisma.transfer.findFirst({
@@ -20,33 +33,37 @@ async function getTransfer(transferId: string, userId: string) {
       subscription: true,
       user: true,
     },
-  })
+  });
 }
 
-export default async function TransferDetailsPage({ params }: { params: { id: string } }) {
-  const user = await requireAuth()
-  const transfer = await getTransfer(params.id, user.id)
+export default async function TransferDetailsPage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const user = await requireAuth();
+  const transfer = await getTransfer(params.id, user.id);
 
   if (!transfer) {
-    notFound()
+    notFound();
   }
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case "COMPLETED":
-        return "bg-emerald-100 text-emerald-800"
+        return "bg-green-forest-100 text-green-forest-800";
       case "PENDING":
-        return "bg-yellow-100 text-yellow-800"
+        return "bg-green-olive-100 text-green-olive-800";
       case "PROCESSING":
-        return "bg-blue-100 text-blue-800"
+        return "bg-gray-100 text-gray-800";
       case "FAILED":
-        return "bg-red-100 text-red-800"
+        return "bg-red-100 text-red-800";
       case "CANCELLED":
-        return "bg-gray-100 text-gray-800"
+        return "bg-gray-100 text-gray-800";
       default:
-        return "bg-gray-100 text-gray-800"
+        return "bg-gray-100 text-gray-800";
     }
-  }
+  };
 
   return (
     <DashboardLayout>
@@ -62,8 +79,12 @@ export default async function TransferDetailsPage({ params }: { params: { id: st
         </div>
 
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Transfer Details</h1>
-          <p className="text-muted-foreground mt-2">Complete information about your transfer</p>
+          <h1 className="text-3xl font-bold text-foreground">
+            Transfer Details
+          </h1>
+          <p className="text-muted-foreground mt-2">
+            Complete information about your transfer
+          </p>
         </div>
 
         <div className="grid gap-6 lg:grid-cols-3">
@@ -72,8 +93,12 @@ export default async function TransferDetailsPage({ params }: { params: { id: st
             <Card className="shadow-sm">
               <CardHeader>
                 <div className="flex items-center justify-between">
-                  <CardTitle className="text-xl">Transfer Information</CardTitle>
-                  <Badge className={getStatusColor(transfer.status)}>{transfer.status.toLowerCase()}</Badge>
+                  <CardTitle className="text-xl">
+                    Transfer Information
+                  </CardTitle>
+                  <Badge className={getStatusColor(transfer.status)}>
+                    {transfer.status.toLowerCase()}
+                  </Badge>
                 </div>
                 <CardDescription>Transfer ID: {transfer.id}</CardDescription>
               </CardHeader>
@@ -82,7 +107,9 @@ export default async function TransferDetailsPage({ params }: { params: { id: st
                   <div className="flex items-center space-x-3">
                     <User className="h-5 w-5 text-muted-foreground" />
                     <div>
-                      <p className="text-sm text-muted-foreground">Beneficiary</p>
+                      <p className="text-sm text-muted-foreground">
+                        Beneficiary
+                      </p>
                       <p className="font-medium">{transfer.beneficiary.name}</p>
                     </div>
                   </div>
@@ -91,31 +118,49 @@ export default async function TransferDetailsPage({ params }: { params: { id: st
                     <div>
                       <p className="text-sm text-muted-foreground">Location</p>
                       <p className="font-medium">
-                        {transfer.beneficiary.city}, {transfer.beneficiary.country}
+                        {transfer.beneficiary.city},{" "}
+                        {transfer.beneficiary.country}
                       </p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-3">
                     <Calendar className="h-5 w-5 text-muted-foreground" />
                     <div>
-                      <p className="text-sm text-muted-foreground">Transfer Date</p>
-                      <p className="font-medium">{format(new Date(transfer.createdAt), "MMMM dd, yyyy 'at' HH:mm")}</p>
+                      <p className="text-sm text-muted-foreground">
+                        Transfer Date
+                      </p>
+                      <p className="font-medium">
+                        {format(
+                          new Date(transfer.createdAt),
+                          "MMMM dd, yyyy 'at' HH:mm"
+                        )}
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-3">
                     <CreditCard className="h-5 w-5 text-muted-foreground" />
                     <div>
                       <p className="text-sm text-muted-foreground">Type</p>
-                      <p className="font-medium">{transfer.type === "SUBSCRIPTION" ? "Recurring" : "One-time"}</p>
+                      <p className="font-medium">
+                        {transfer.type === "SUBSCRIPTION"
+                          ? "Recurring"
+                          : "One-time"}
+                      </p>
                     </div>
                   </div>
                 </div>
 
                 {transfer.status === "COMPLETED" && transfer.confirmedAt && (
                   <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-lg">
-                    <p className="text-sm font-medium text-emerald-800">Transfer Completed</p>
+                    <p className="text-sm font-medium text-emerald-800">
+                      Transfer Completed
+                    </p>
                     <p className="text-sm text-emerald-700">
-                      Confirmed on {format(new Date(transfer.confirmedAt), "MMMM dd, yyyy 'at' HH:mm")}
+                      Confirmed on{" "}
+                      {format(
+                        new Date(transfer.confirmedAt),
+                        "MMMM dd, yyyy 'at' HH:mm"
+                      )}
                     </p>
                   </div>
                 )}
@@ -134,7 +179,9 @@ export default async function TransferDetailsPage({ params }: { params: { id: st
                     <p className="font-medium">{transfer.beneficiary.name}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-muted-foreground">Phone Number</p>
+                    <p className="text-sm text-muted-foreground">
+                      Phone Number
+                    </p>
                     <p className="font-medium">{transfer.beneficiary.phone}</p>
                   </div>
                   <div>
@@ -143,12 +190,16 @@ export default async function TransferDetailsPage({ params }: { params: { id: st
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Country</p>
-                    <p className="font-medium">{transfer.beneficiary.country}</p>
+                    <p className="font-medium">
+                      {transfer.beneficiary.country}
+                    </p>
                   </div>
                   {transfer.beneficiary.address && (
                     <div className="md:col-span-2">
                       <p className="text-sm text-muted-foreground">Address</p>
-                      <p className="font-medium">{transfer.beneficiary.address}</p>
+                      <p className="font-medium">
+                        {transfer.beneficiary.address}
+                      </p>
                     </div>
                   )}
                 </div>
@@ -165,20 +216,34 @@ export default async function TransferDetailsPage({ params }: { params: { id: st
               <CardContent className="space-y-4">
                 <div className="space-y-3">
                   <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">Transfer amount:</span>
-                    <span className="font-medium">${transfer.amountCAD.toString()} CAD</span>
+                    <span className="text-sm text-muted-foreground">
+                      Transfer amount:
+                    </span>
+                    <span className="font-medium">
+                      ${transfer.amountCAD.toString()} CAD
+                    </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">Service fee:</span>
-                    <span className="font-medium">${transfer.feeCAD.toString()} CAD</span>
+                    <span className="text-sm text-muted-foreground">
+                      Service fee:
+                    </span>
+                    <span className="font-medium">
+                      ${transfer.feeCAD.toString()} CAD
+                    </span>
                   </div>
                   <div className="flex justify-between border-t pt-3">
                     <span className="font-medium">Total charged:</span>
-                    <span className="font-semibold">${transfer.totalCAD.toString()} CAD</span>
+                    <span className="font-semibold">
+                      ${transfer.totalCAD.toString()} CAD
+                    </span>
                   </div>
                   <div className="flex justify-between bg-emerald-50 p-3 rounded-lg">
-                    <span className="text-emerald-800 font-medium">Amount received:</span>
-                    <span className="text-emerald-800 font-semibold">{transfer.amountMGA.toLocaleString()} MGA</span>
+                    <span className="text-emerald-800 font-medium">
+                      Amount received:
+                    </span>
+                    <span className="text-emerald-800 font-semibold">
+                      {transfer.amountMGA.toLocaleString()} MGA
+                    </span>
                   </div>
                 </div>
               </CardContent>
@@ -191,14 +256,18 @@ export default async function TransferDetailsPage({ params }: { params: { id: st
               <CardContent>
                 <div className="flex items-center space-x-2 mb-2">
                   <TrendingUp className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm text-muted-foreground">Rate used for this transfer</span>
+                  <span className="text-sm text-muted-foreground">
+                    Rate used for this transfer
+                  </span>
                 </div>
-                <p className="text-lg font-semibold">1 CAD = {transfer.exchangeRate.toLocaleString()} MGA</p>
+                <p className="text-lg font-semibold">
+                  1 CAD = {transfer.exchangeRate.toLocaleString()} MGA
+                </p>
               </CardContent>
             </Card>
           </div>
         </div>
       </div>
     </DashboardLayout>
-  )
+  );
 }
