@@ -205,7 +205,7 @@ export default async function HomePage() {
               },
               {
                 icon: <DollarSign className="w-8 h-8" />,
-                title: "Crystal Clear Pricing",
+                title: "Crystal clear Pricing",
                 description:
                   "What you see is what you pay. No sneaky fees, no hidden charges, no unpleasant surprises. Just honest, transparent pricing that respects your money.",
               },
