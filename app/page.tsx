@@ -354,7 +354,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* Call to action Section */}
       <section className="py-16 lg:py-20 bg-gradient-to-br from-green-forest-800 via-green-forest-700 to-green-olive-700 text-white">
         <div className="container mx-auto px-4 sm:px-6 text-center animate-on-scroll">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
