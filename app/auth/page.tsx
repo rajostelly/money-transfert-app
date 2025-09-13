@@ -18,7 +18,7 @@ export default async function AuthPage({ searchParams }: AuthPageProps) {
   const defaultTab = searchParams.tab || "signin";
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-background to-emerald-50/30 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900/90 flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-background to-emerald-50/40 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900/90 flex items-center justify-center p-4 relative overflow-hidden">
       {/* Background decorations */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-1/2 -right-1/2 w-96 h-96 bg-emerald-400/10 dark:bg-emerald-400/5 rounded-full blur-3xl" />
