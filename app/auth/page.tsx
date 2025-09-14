@@ -25,6 +25,7 @@ export default async function AuthPage({ searchParams }: AuthPageProps) {
         <div className="absolute -bottom-1/2 -left-1/2 w-96 h-96 bg-emerald-600/10 dark:bg-emerald-600/5 rounded-full blur-3xl" />
       </div>
 
+      {/* import AuthHeader */}
       <AuthHeader />
 
       <div className="w-full max-w-md space-y-8 relative z-10">
