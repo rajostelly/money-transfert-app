@@ -50,7 +50,7 @@ export default async function AuthPage({ searchParams }: AuthPageProps) {
             TransferApp
           </h1>
           <p className="text-muted-foreground">
-            Secure and fast money transfers to Madagascar
+            Secure and fast money transfers to Madagascar from Canada
           </p>
         </div>
 
